@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=tunmez
+Comment=Crop rotation planner for market-gardening farms
+# The Exec line includes %u to pass the URL to the application
+Exec=/usr/local/bin/tunmez %u
+Terminal=false
+Type=Application
+Icon=tunmez
+Categories=Office;
+StartupWMClass=tunmez
+
+ 

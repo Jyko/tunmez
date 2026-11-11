@@ -1,0 +1,15 @@
+version: "2"
+
+linters:
+  default: standard
+  exclusions:
+    paths:
+      - frontend/node_modules
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    paths:
+      - frontend/node_modules
