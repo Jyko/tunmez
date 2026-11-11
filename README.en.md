@@ -6,10 +6,11 @@ Crop rotation planner for market-gardening farms.
 
 tunmez helps market gardeners prepare their growing season.
 
-No features are available yet.
+tunmez remembers your display preferences: language, theme and window.
 
 ## Documentation
 
+- [Display preferences](docs/en/preferences.md)
 - [Keyboard shortcuts](docs/en/keybinds.md)
 
 ## Licence

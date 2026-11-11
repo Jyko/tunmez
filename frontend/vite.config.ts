@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [vue(), vuetify(), mode !== 'test' && wails('./bindings')],
   test: {
     environment: 'jsdom',
+    setupFiles: ['./src/test/setup.ts'],
     server: { deps: { inline: ['vuetify'] } },
   },
 }))
