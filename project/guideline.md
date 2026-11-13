@@ -30,6 +30,7 @@ Approved runtime libraries:
 | github.com/mattn/go-sqlite3 | SQLite driver |
 | github.com/pressly/goose/v3 | SQLite schema migrations |
 | github.com/google/uuid | UUIDv7 technical identifiers |
+| github.com/goccy/go-yaml | YAML preference files |
 | Vue 3 | Frontend framework |
 | Vuetify | Material Design components |
 | vue-i18n | Frontend internationalisation |
@@ -61,16 +62,20 @@ Approved development tools:
 
 - Responsibilities are separated: services hold the business logic, repositories hold the data access.
 - SQL is only used in `internal/database` and in repositories. A service never accesses the database directly.
-- A service depends on a repository interface declared in its own package. The SQLite implementation lives next to it in a `sqlite_<entity>_repository.go` file.
-- Naming: entity + role, the package name qualifying the domain, for example `preferences.DisplayService`, `preferences.EntryRepository`, `preferences.SQLiteEntryRepository`. Never repeat the package name (`preferences.PreferencesService`).
+- A service depends on a repository interface declared in its own package. The SQLite implementation lives next to it in a `sqlite_<entity>_repository.go` file, a YAML file implementation in a `yaml_<entity>_repository.go` file.
+- Naming: entity + role, the package name qualifying the domain, for example `preferences.DisplayService`, `preferences.SettingsRepository`, `farm.SQLiteRepository`. Never repeat the package name (`preferences.PreferencesService`).
 
 ### Persistence
 
 - A single SQLite database, stored in the user data directory: `$XDG_DATA_HOME/tunmez/tunmez.db` (default `~/.local/share/tunmez/tunmez.db`) on Linux, `tunmez/tunmez.db` under the user configuration directory on macOS and Windows. The file is owner-only (`0600`).
 - `internal/database` opens the database and applies the migrations. Migrations are numbered SQL files embedded in the binary (`internal/database/migrations/`), applied with goose at startup.
 - Technical identifiers are UUIDv7 stored as `TEXT`.
-- User preferences are typed key-value entries (`preference` table). Keys, types and defaults are declared in code, and only the values the user chose are stored. Adding a preference needs no migration.
-- The active farm is stored as a preference entry.
+- User preferences are not stored in the database. They live in owner-only YAML files in the user's profile, read at startup:
+  - Settings the user may edit by hand (language, theme): `config.yaml` in the user configuration directory (`$XDG_CONFIG_HOME/tunmez/`, default `~/.config/tunmez/`, on Linux; `tunmez/` under the user configuration directory on macOS and Windows).
+  - Session state written by the application (window geometry, active farm): `state.yaml` in `$XDG_STATE_HOME/tunmez/` (default `~/.local/state/tunmez/`) on Linux, next to `config.yaml` on macOS and Windows.
+  - Defaults are declared in code; keys missing from a file keep their default.
+  - An invalid settings file does not block startup: defaults are used, the user is told which file is invalid, and the file is replaced only when a setting changes. An invalid state file falls back to defaults silently.
+  - Files are written atomically (temporary file then rename).
 - Farm-owned data references `farm(id)` with `ON DELETE CASCADE`, so deleting a farm deletes its data.
 
 ### Frontend

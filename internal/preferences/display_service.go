@@ -2,121 +2,81 @@ package preferences
 
 import (
 	"context"
-	"fmt"
+	"errors"
+	"log"
 )
+
+// Display holds the display preferences.
+type Display struct {
+	// Locale is the interface language, or empty to follow the host.
+	Locale string `json:"locale"`
+	Theme  Theme  `json:"theme"`
+	Window Window `json:"window"`
+	// InvalidConfig is the path of the settings file when it is invalid and
+	// defaults are used instead, or empty.
+	InvalidConfig string `json:"invalidConfig"`
+}
 
 // DisplayService reads and updates the display preferences.
 type DisplayService struct {
-	entries EntryRepository
+	settings SettingsRepository
+	state    StateRepository
 }
 
-// NewDisplayService returns a DisplayService backed by entries.
-func NewDisplayService(entries EntryRepository) *DisplayService {
-	return &DisplayService{entries: entries}
+// NewDisplayService returns a DisplayService backed by settings and state.
+func NewDisplayService(settings SettingsRepository, state StateRepository) *DisplayService {
+	return &DisplayService{settings: settings, state: state}
 }
 
-// Get returns the display preferences, with defaults for unset keys.
-func (s *DisplayService) Get(ctx context.Context) (Display, error) {
-	entries, err := s.entries.List(ctx)
+// Get returns the display preferences. Unreadable files are logged and
+// replaced by defaults so the application always starts.
+func (s *DisplayService) Get(context.Context) Display {
+	var d Display
+	settings, err := s.settings.Load()
 	if err != nil {
-		return Display{}, fmt.Errorf("list preferences: %w", err)
-	}
-	d := DefaultDisplay()
-	for _, e := range entries {
-		if err := d.apply(e); err != nil {
-			return Display{}, err
+		log.Printf("load settings: %v", err)
+		var invalid *InvalidFileError
+		if errors.As(err, &invalid) {
+			d.InvalidConfig = invalid.Path
 		}
 	}
-	return d, nil
+	state, err := s.state.Load()
+	if err != nil {
+		log.Printf("load session state: %v", err)
+	}
+	d.Locale, d.Theme, d.Window = settings.Locale, settings.Theme, state.Window
+	return d
 }
 
 // SetLocale sets the interface language. An empty locale follows the host.
-func (s *DisplayService) SetLocale(ctx context.Context, locale string) error {
-	if locale == "" {
-		return s.entries.Delete(ctx, KeyLocale)
+func (s *DisplayService) SetLocale(_ context.Context, locale string) error {
+	if locale != "" {
+		if err := validateLocale(locale); err != nil {
+			return err
+		}
 	}
-	if err := validateLocale(locale); err != nil {
-		return err
-	}
-	return s.entries.Upsert(ctx, stringEntry(KeyLocale, locale))
+	return s.settings.Update(func(st *Settings) { st.Locale = locale })
 }
 
 // SetTheme sets the colour theme. ThemeSystem follows the host.
-func (s *DisplayService) SetTheme(ctx context.Context, theme Theme) error {
+func (s *DisplayService) SetTheme(_ context.Context, theme Theme) error {
 	if err := validateTheme(theme); err != nil {
 		return err
 	}
-	if theme == ThemeSystem {
-		return s.entries.Delete(ctx, KeyTheme)
-	}
-	return s.entries.Upsert(ctx, stringEntry(KeyTheme, string(theme)))
+	return s.settings.Update(func(st *Settings) { st.Theme = theme })
 }
 
 // SaveWindow records the main window geometry. When the window is maximised,
 // only that state is recorded so the last normal size and position are kept.
-func (s *DisplayService) SaveWindow(ctx context.Context, w Window) error {
+func (s *DisplayService) SaveWindow(_ context.Context, w Window) error {
 	if err := validateWindow(w); err != nil {
 		return err
 	}
-	if err := s.entries.Upsert(ctx, boolEntry(KeyWindowMaximised, w.Maximised)); err != nil {
-		return err
-	}
-	if w.Maximised {
-		return nil
-	}
-	for _, e := range []Entry{intEntry(KeyWindowWidth, w.Width), intEntry(KeyWindowHeight, w.Height)} {
-		if err := s.entries.Upsert(ctx, e); err != nil {
-			return err
+	return s.state.Update(func(st *State) {
+		if w.Maximised {
+			st.Window.Maximised = true
+			return
 		}
-	}
-	return s.savePosition(ctx, w.X, w.Y)
-}
-
-func (s *DisplayService) savePosition(ctx context.Context, x, y *int) error {
-	if x == nil || y == nil {
-		if err := s.entries.Delete(ctx, KeyWindowX); err != nil {
-			return err
-		}
-		return s.entries.Delete(ctx, KeyWindowY)
-	}
-	if err := s.entries.Upsert(ctx, intEntry(KeyWindowX, *x)); err != nil {
-		return err
-	}
-	return s.entries.Upsert(ctx, intEntry(KeyWindowY, *y))
-}
-
-// apply sets the field matching e, ignoring unknown keys left by other versions.
-func (d *Display) apply(e Entry) error {
-	if _, known := registry[e.Key]; !known {
-		return nil
-	}
-	if err := checkType(e); err != nil {
-		return err
-	}
-	var err error
-	switch e.Key {
-	case KeyLocale:
-		d.Locale = e.Value
-	case KeyTheme:
-		d.Theme = Theme(e.Value)
-	case KeyWindowWidth:
-		d.Window.Width, err = e.int()
-	case KeyWindowHeight:
-		d.Window.Height, err = e.int()
-	case KeyWindowX:
-		d.Window.X, err = intPtr(e)
-	case KeyWindowY:
-		d.Window.Y, err = intPtr(e)
-	case KeyWindowMaximised:
-		d.Window.Maximised, err = e.bool()
-	}
-	return err
-}
-
-func intPtr(e Entry) (*int, error) {
-	v, err := e.int()
-	if err != nil {
-		return nil, err
-	}
-	return new(v), nil
+		st.Window = w
+	})
 }

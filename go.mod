@@ -3,6 +3,7 @@ module github.com/Jyko/tunmez
 go 1.26.0
 
 require (
+	github.com/goccy/go-yaml v1.19.2
 	github.com/google/uuid v1.6.0
 	github.com/mattn/go-sqlite3 v1.14.53
 	github.com/pressly/goose/v3 v3.30.0

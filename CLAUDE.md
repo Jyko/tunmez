@@ -17,7 +17,7 @@ Read the relevant file before acting. Do not duplicate its content here.
 - `LICENSE.md`: The Unlicense.
 - `main.go`: Wails application entry point. Wires the database, repositories and services, and saves the window geometry on close. Embeds `frontend/dist`.
 - `internal/database/`: shared SQLite access, with `Open` (pragmas and migrations) and `DefaultPath`. Migrations live in `migrations/*.sql`.
-- `internal/preferences/`: preferences domain. Contains `DisplayService` (bound to the frontend), the `EntryRepository` interface and its SQLite implementation, and the key registry. `ActiveFarmRepository` stores the active farm as a preference entry.
+- `internal/preferences/`: preferences domain, stored in YAML files (`config.yaml` settings, `state.yaml` session state). Contains `DisplayService` (bound to the frontend), the `SettingsRepository` and `StateRepository` interfaces, their generic `YAMLRepository` implementation, file locations (`ConfigPath`, `StatePath`), and `ActiveFarmRepository`, which keeps the active farm in the session state.
 - `internal/farm/`: farm domain. Contains `Service` (bound to the frontend), the `Repository` and `ActiveRepository` interfaces, and the SQLite farm repository.
 - `frontend/`: Vue 3 + Vuetify app.
   - `src/api/`: clients for the Go services, the only modules that import `bindings/`.

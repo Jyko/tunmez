@@ -22,7 +22,7 @@ function setup(stored: DisplayPreferences, hostLanguages: readonly string[] = ['
 
 describe('createDisplayPreferences', () => {
   it('applies the stored locale and theme on load', async () => {
-    const { i18n, theme, prefs } = setup({ locale: 'en', theme: 'dark' })
+    const { i18n, theme, prefs } = setup({ locale: 'en', theme: 'dark', invalidConfig: '' })
 
     await prefs.load()
 
@@ -32,8 +32,16 @@ describe('createDisplayPreferences', () => {
     expect(prefs.theme.value).toBe('dark')
   })
 
+  it('reports an invalid settings file', async () => {
+    const { prefs } = setup({ locale: '', theme: 'system', invalidConfig: '/home/grower/.config/tunmez/config.yaml' })
+
+    await prefs.load()
+
+    expect(prefs.invalidConfig.value).toBe('/home/grower/.config/tunmez/config.yaml')
+  })
+
   it('follows the host language when no locale is stored', async () => {
-    const { i18n, prefs } = setup({ locale: '', theme: 'system' }, ['en-GB'])
+    const { i18n, prefs } = setup({ locale: '', theme: 'system', invalidConfig: '' }, ['en-GB'])
 
     await prefs.load()
 
@@ -42,7 +50,7 @@ describe('createDisplayPreferences', () => {
   })
 
   it('keeps defaults when loading fails', async () => {
-    const { i18n, api, prefs } = setup({ locale: 'en', theme: 'dark' })
+    const { i18n, api, prefs } = setup({ locale: 'en', theme: 'dark', invalidConfig: '' })
     vi.mocked(api.load).mockRejectedValue(new Error('unavailable'))
     vi.spyOn(console, 'error').mockImplementation(() => {})
 
@@ -53,7 +61,7 @@ describe('createDisplayPreferences', () => {
   })
 
   it('persists then applies a new locale', async () => {
-    const { i18n, api, prefs } = setup({ locale: '', theme: 'system' })
+    const { i18n, api, prefs } = setup({ locale: '', theme: 'system', invalidConfig: '' })
 
     await prefs.setLocale('en')
 
@@ -63,7 +71,7 @@ describe('createDisplayPreferences', () => {
   })
 
   it('persists then applies a new theme', async () => {
-    const { theme, api, prefs } = setup({ locale: '', theme: 'system' })
+    const { theme, api, prefs } = setup({ locale: '', theme: 'system', invalidConfig: '' })
 
     await prefs.setTheme('light')
 

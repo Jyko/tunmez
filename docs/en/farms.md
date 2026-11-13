@@ -33,4 +33,12 @@ After the active farm is deleted, no farm is open: the home screen offers to cho
 
 tunmez reopens the last farm you used. If it no longer exists, the home screen lists your farms, or offers to create one if you have none.
 
-Farms are stored in the tunmez database, described in [Display preferences](preferences.md#where-data-is-stored).
+## Where data is stored
+
+Farms are saved in the tunmez database, readable by your user account only:
+
+- Linux: `~/.local/share/tunmez/tunmez.db` (or `$XDG_DATA_HOME/tunmez/tunmez.db`)
+- macOS: `~/Library/Application Support/tunmez/tunmez.db`
+- Windows: `%AppData%\tunmez\tunmez.db`
+
+The active farm is remembered in the [session state](preferences.md#session-state-stateyaml).

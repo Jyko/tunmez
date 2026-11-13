@@ -19,10 +19,33 @@ Le changement s'applique immédiatement.
 
 Sous Linux avec Wayland, le système ne permet pas aux applications de choisir leur position : la fenêtre retrouve sa taille, mais c'est le système qui la place.
 
-## Emplacement des données
+## Fichiers de préférences
 
-Les préférences sont enregistrées dans la base de données de tunmez, accessible à votre seul compte utilisateur :
+Les préférences sont enregistrées dans votre profil utilisateur, dans des fichiers YAML lisibles par votre seul compte.
 
-- Linux : `~/.local/share/tunmez/tunmez.db` (ou `$XDG_DATA_HOME/tunmez/tunmez.db`)
-- macOS : `~/Library/Application Support/tunmez/tunmez.db`
-- Windows : `%AppData%\tunmez\tunmez.db`
+### Réglages : `config.yaml`
+
+La langue et le thème. Vous pouvez modifier ce fichier à la main, de préférence quand tunmez est fermé :
+
+```yaml
+locale: fr-FR   # fr-FR ou en ; supprimez la ligne pour suivre la langue du système
+theme: dark     # system, light ou dark
+```
+
+Emplacement :
+
+- Linux : `~/.config/tunmez/config.yaml` (ou `$XDG_CONFIG_HOME/tunmez/config.yaml`)
+- macOS : `~/Library/Application Support/tunmez/config.yaml`
+- Windows : `%AppData%\tunmez\config.yaml`
+
+Si le fichier est invalide (erreur de syntaxe, valeur inconnue), tunmez démarre avec les réglages par défaut et affiche un message avec le chemin du fichier. Le fichier n'est pas modifié tant que vous ne changez pas un réglage dans tunmez ; il est alors remplacé.
+
+### État de session : `state.yaml`
+
+La fenêtre et l'exploitation active. tunmez écrit ce fichier lui-même ; il n'est pas fait pour être modifié.
+
+Emplacement :
+
+- Linux : `~/.local/state/tunmez/state.yaml` (ou `$XDG_STATE_HOME/tunmez/state.yaml`)
+- macOS : `~/Library/Application Support/tunmez/state.yaml`
+- Windows : `%AppData%\tunmez\state.yaml`

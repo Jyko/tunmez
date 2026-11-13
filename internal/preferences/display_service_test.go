@@ -2,81 +2,62 @@ package preferences_test
 
 import (
 	"context"
+	"errors"
+	"io/fs"
+	"os"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/Jyko/tunmez/internal/preferences"
 )
 
-// memoryRepository is an in-memory EntryRepository for service tests.
-type memoryRepository map[preferences.Key]preferences.Entry
-
-func (m memoryRepository) Get(_ context.Context, key preferences.Key) (preferences.Entry, error) {
-	e, ok := m[key]
-	if !ok {
-		return preferences.Entry{}, preferences.ErrEntryNotFound
-	}
-	return e, nil
-}
-
-func (m memoryRepository) List(context.Context) ([]preferences.Entry, error) {
-	entries := make([]preferences.Entry, 0, len(m))
-	for _, e := range m {
-		entries = append(entries, e)
-	}
-	return entries, nil
-}
-
-func (m memoryRepository) Upsert(_ context.Context, e preferences.Entry) error {
-	m[e.Key] = e
-	return nil
-}
-
-func (m memoryRepository) Delete(_ context.Context, key preferences.Key) error {
-	delete(m, key)
-	return nil
-}
-
 func TestDisplayServiceGetDefaults(t *testing.T) {
-	svc := preferences.NewDisplayService(memoryRepository{})
+	got := newFiles(t).display().Get(context.Background())
 
-	got, err := svc.Get(context.Background())
-	if err != nil {
-		t.Fatal(err)
-	}
-	if want := preferences.DefaultDisplay(); !reflect.DeepEqual(got, want) {
-		t.Errorf("Get() = %+v, want defaults %+v", got, want)
+	want := preferences.Display{Theme: preferences.ThemeSystem, Window: preferences.DefaultState().Window}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("Get() = %+v, want %+v", got, want)
 	}
 }
 
-func TestDisplayServiceGetRejectsTypeMismatch(t *testing.T) {
-	repo := memoryRepository{preferences.KeyWindowWidth: {Key: preferences.KeyWindowWidth, Value: "1024", Type: preferences.TypeString}}
-	svc := preferences.NewDisplayService(repo)
+func TestDisplayServiceGetReportsInvalidConfig(t *testing.T) {
+	f := newFiles(t)
+	write(t, f.config, "theme: sepia\n")
 
-	if _, err := svc.Get(context.Background()); err == nil {
-		t.Error("Get() with a mistyped entry: err = nil, want an error")
+	got := f.display().Get(context.Background())
+	if got.InvalidConfig != f.config || got.Theme != preferences.ThemeSystem {
+		t.Errorf("Get() = %+v, want defaults and InvalidConfig %s", got, f.config)
+	}
+}
+
+func TestDisplayServiceGetIgnoresInvalidState(t *testing.T) {
+	f := newFiles(t)
+	write(t, f.state, "window: {width: 0, height: 0}\n")
+
+	got := f.display().Get(context.Background())
+	if got.Window != preferences.DefaultState().Window || got.InvalidConfig != "" {
+		t.Errorf("Get() = %+v, want the default window and no config error", got)
 	}
 }
 
 func TestDisplayServiceSetLocale(t *testing.T) {
 	ctx := context.Background()
-	repo := memoryRepository{}
-	svc := preferences.NewDisplayService(repo)
+	f := newFiles(t)
+	svc := f.display()
 
 	if err := svc.SetLocale(ctx, "en"); err != nil {
 		t.Fatal(err)
 	}
-	if got, _ := svc.Get(ctx); got.Locale != "en" {
+	if got := svc.Get(ctx); got.Locale != "en" {
 		t.Errorf("Locale = %q, want en", got.Locale)
 	}
-
 	if err := svc.SetLocale(ctx, ""); err != nil {
 		t.Fatal(err)
 	}
-	if _, ok := repo[preferences.KeyLocale]; ok {
-		t.Error("empty locale kept an entry, want it deleted to follow the host")
+	if strings.Contains(read(t, f.config), "\nlocale:") {
+		t.Error("empty locale kept a locale key, want it removed to follow the host")
 	}
-
 	if err := svc.SetLocale(ctx, "de-DE"); err == nil {
 		t.Error("SetLocale(de-DE): err = nil, want an error")
 	}
@@ -84,23 +65,14 @@ func TestDisplayServiceSetLocale(t *testing.T) {
 
 func TestDisplayServiceSetTheme(t *testing.T) {
 	ctx := context.Background()
-	repo := memoryRepository{}
-	svc := preferences.NewDisplayService(repo)
+	svc := newFiles(t).display()
 
 	if err := svc.SetTheme(ctx, preferences.ThemeDark); err != nil {
 		t.Fatal(err)
 	}
-	if got, _ := svc.Get(ctx); got.Theme != preferences.ThemeDark {
+	if got := svc.Get(ctx); got.Theme != preferences.ThemeDark {
 		t.Errorf("Theme = %q, want dark", got.Theme)
 	}
-
-	if err := svc.SetTheme(ctx, preferences.ThemeSystem); err != nil {
-		t.Fatal(err)
-	}
-	if _, ok := repo[preferences.KeyTheme]; ok {
-		t.Error("system theme kept an entry, want it deleted")
-	}
-
 	if err := svc.SetTheme(ctx, "sepia"); err == nil {
 		t.Error("SetTheme(sepia): err = nil, want an error")
 	}
@@ -108,13 +80,14 @@ func TestDisplayServiceSetTheme(t *testing.T) {
 
 func TestDisplayServiceSaveWindow(t *testing.T) {
 	ctx := context.Background()
-	svc := preferences.NewDisplayService(memoryRepository{})
+	f := newFiles(t)
+	svc := f.display()
 
 	normal := preferences.Window{Width: 1024, Height: 700, X: new(10), Y: new(20)}
 	if err := svc.SaveWindow(ctx, normal); err != nil {
 		t.Fatal(err)
 	}
-	if got, _ := svc.Get(ctx); !reflect.DeepEqual(got.Window, normal) {
+	if got := svc.Get(ctx); !reflect.DeepEqual(got.Window, normal) {
 		t.Errorf("Window = %+v, want %+v", got.Window, normal)
 	}
 
@@ -124,8 +97,11 @@ func TestDisplayServiceSaveWindow(t *testing.T) {
 	}
 	want := normal
 	want.Maximised = true
-	if got, _ := svc.Get(ctx); !reflect.DeepEqual(got.Window, want) {
+	if got := svc.Get(ctx); !reflect.DeepEqual(got.Window, want) {
 		t.Errorf("Window = %+v, want %+v", got.Window, want)
+	}
+	if _, err := os.Stat(f.config); !errors.Is(err, fs.ErrNotExist) {
+		t.Errorf("settings file written with the window geometry: %v, want it untouched", err)
 	}
 
 	if err := svc.SaveWindow(ctx, preferences.Window{Width: 0, Height: 700}); err == nil {

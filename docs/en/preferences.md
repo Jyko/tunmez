@@ -19,10 +19,33 @@ When you close tunmez, it records the window size, its position and whether it i
 
 On Linux with Wayland, the system does not let applications choose their position: the window keeps its size, but the system places it.
 
-## Where data is stored
+## Preference files
 
-Preferences are saved in the tunmez database, readable by your user account only:
+Preferences are saved in your user profile, in YAML files readable by your user account only.
 
-- Linux: `~/.local/share/tunmez/tunmez.db` (or `$XDG_DATA_HOME/tunmez/tunmez.db`)
-- macOS: `~/Library/Application Support/tunmez/tunmez.db`
-- Windows: `%AppData%\tunmez\tunmez.db`
+### Settings: `config.yaml`
+
+Language and theme. You can edit this file by hand, preferably while tunmez is closed:
+
+```yaml
+locale: en      # fr-FR or en; remove the line to follow the system language
+theme: dark     # system, light or dark
+```
+
+Location:
+
+- Linux: `~/.config/tunmez/config.yaml` (or `$XDG_CONFIG_HOME/tunmez/config.yaml`)
+- macOS: `~/Library/Application Support/tunmez/config.yaml`
+- Windows: `%AppData%\tunmez\config.yaml`
+
+If the file is invalid (syntax error, unknown value), tunmez starts with the default settings and shows a message with the file path. The file is left untouched until you change a setting in tunmez, which then replaces it.
+
+### Session state: `state.yaml`
+
+The window and the active farm. tunmez writes this file itself; it is not meant to be edited.
+
+Location:
+
+- Linux: `~/.local/state/tunmez/state.yaml` (or `$XDG_STATE_HOME/tunmez/state.yaml`)
+- macOS: `~/Library/Application Support/tunmez/state.yaml`
+- Windows: `%AppData%\tunmez\state.yaml`

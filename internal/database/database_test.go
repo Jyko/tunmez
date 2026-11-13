@@ -42,7 +42,7 @@ func TestOpen(t *testing.T) {
 	}
 
 	var table string
-	err = db.QueryRow("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'preference'").Scan(&table)
+	err = db.QueryRow("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'farm'").Scan(&table)
 	if err != nil {
 		t.Errorf("migrations not applied: %v", err)
 	}

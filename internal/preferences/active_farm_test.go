@@ -9,7 +9,8 @@ import (
 
 func TestActiveFarmRepository(t *testing.T) {
 	ctx := context.Background()
-	repo := preferences.NewActiveFarmRepository(memoryRepository{})
+	f := newFiles(t)
+	repo := preferences.NewActiveFarmRepository(preferences.NewStateRepository(f.state))
 
 	if id, err := repo.Get(ctx); err != nil || id != "" {
 		t.Errorf("Get() = %q, %v, want none", id, err)
@@ -28,13 +29,29 @@ func TestActiveFarmRepository(t *testing.T) {
 	}
 }
 
-func TestDisplayServiceIgnoresActiveFarm(t *testing.T) {
+func TestActiveFarmRepositoryKeepsWindow(t *testing.T) {
 	ctx := context.Background()
-	entries := memoryRepository{}
-	if err := preferences.NewActiveFarmRepository(entries).Set(ctx, "farm-1"); err != nil {
+	f := newFiles(t)
+	state := preferences.NewStateRepository(f.state)
+	window := preferences.Window{Width: 1024, Height: 700}
+	if err := f.display().SaveWindow(ctx, window); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := preferences.NewDisplayService(entries).Get(ctx); err != nil {
-		t.Errorf("Get() with an active farm entry: %v, want nil", err)
+
+	if err := preferences.NewActiveFarmRepository(state).Set(ctx, "farm-1"); err != nil {
+		t.Fatal(err)
+	}
+	if got := f.display().Get(ctx); got.Window != window {
+		t.Errorf("Window = %+v, want %+v", got.Window, window)
+	}
+}
+
+func TestActiveFarmRepositoryInvalidStateMeansNone(t *testing.T) {
+	f := newFiles(t)
+	write(t, f.state, "active_farm: [\n")
+
+	id, err := preferences.NewActiveFarmRepository(preferences.NewStateRepository(f.state)).Get(context.Background())
+	if err != nil || id != "" {
+		t.Errorf("Get() = %q, %v, want none", id, err)
 	}
 }
