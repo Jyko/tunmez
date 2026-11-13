@@ -1,0 +1,80 @@
+{
+  "app": {
+    "name": "tunmez"
+  },
+  "settings": {
+    "theme": "Tem",
+    "system": "Reizhiad",
+    "light": "Sklaer",
+    "dark": "Teñval don",
+    "darkDimmed": "Teñval flour",
+    "invalidFileTitle": "Restr arventennoù direizh",
+    "invalidFile": "Direizh eo ar restr arventennoù {path}. An arventennoù dre ziouer a vez implijet ; erlec'hiet e vo ar restr ma kemmit un arventenn e tunmez.",
+    "interfaceLanguage": "Yezh an etrefas",
+    "languageHint": "Reizhiad a heul yezh hoc'h urzhiataer, pe ar galleg ma n'eo ket hegerz.",
+    "themeHint": "Reizhiad a heul arventenn sklaer pe deñval hoc'h urzhiataer.",
+    "highContrast": "Dargemm uhel",
+    "highContrastHint": "Kreñvaat a ra dargemm al livioù evit lenn aesoc'h, forzh peseurt tem."
+  },
+  "common": {
+    "cancel": "Nullañ",
+    "save": "Enrollañ",
+    "close": "Serriñ",
+    "on": "Gweredekaet",
+    "off": "Diweredekaet"
+  },
+  "farm": {
+    "hint": "Cheñch atant ({shortcut})",
+    "list": "Hoc'h atantoù",
+    "new": "Atant nevez",
+    "create": "Krouiñ un atant",
+    "name": "Anv an atant",
+    "renameTitle": "Adenvel an atant",
+    "delete": "Dilemel",
+    "deleteTitle": "Dilemel an atant ?",
+    "deleteWarning": "« {name} » hag e holl roadennoù a vo dilamet da vat. N'haller ket nullañ an ober-mañ.",
+    "empty": {
+      "title": "Atant ebet",
+      "text": "Krouit hoc'h atant kentañ evit prientiñ ho koulzad."
+    },
+    "choose": {
+      "title": "Dibabit un atant",
+      "text": "Digorit unan eus hoc'h atantoù pe krouit unan nevez."
+    },
+    "errors": {
+      "required": "Ret eo reiñ un anv.",
+      "tooLong": "N'hall ket an anv mont dreist {max} arouezenn.",
+      "save": "C'hwitet eo an enrollañ. Klaskit en-dro.",
+      "delete": "C'hwitet eo an dilemel. Klaskit en-dro.",
+      "open": "N'eus ket bet gallet digeriñ an atant. Klaskit en-dro."
+    },
+    "placeholder": {
+      "none": "Atant ebet",
+      "choose": "Dibab un atant"
+    },
+    "switch": "Cheñch atant",
+    "filter": "Silañ an atantoù",
+    "noMatch": {
+      "title": "N'eus bet kavet atant ebet",
+      "text": "Klaskit un anv all pe krouit un atant nevez."
+    }
+  },
+  "nav": {
+    "label": "Merdeiñ",
+    "home": "Degemer",
+    "farmSettings": "Arventennoù"
+  },
+  "profile": {
+    "title": "Aelad",
+    "preferences": "Gwellvezioù"
+  },
+  "farmSettings": {
+    "title": "Arventennoù an atant",
+    "general": "Hollek",
+    "rename": "Adenvel",
+    "danger": "Takad dañjer",
+    "delete": "Dilemel an atant-mañ",
+    "deleteHint": "An atant hag e holl roadennoù a vo dilamet da vat.",
+    "confirmLabel": "Skrivit « {name} » evit kadarnaat"
+  }
+}

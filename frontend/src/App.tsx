@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Banner, IconButton, PageLayout, Stack, Text, UnderlineNav } from '@primer/react'
-import { GearIcon, HomeIcon, PersonIcon } from '@primer/octicons-react'
+import { Banner, PageLayout, Stack, Text, UnderlineNav } from '@primer/react'
+import { GearIcon, HomeIcon } from '@primer/octicons-react'
 import FarmButton from './components/FarmButton'
 import FarmNameDialog from './components/FarmNameDialog'
+import ProfileButton from './components/ProfileButton'
 import { useT } from './i18n/messages'
 import FarmSettingsPage from './pages/FarmSettingsPage'
 import HomePage from './pages/HomePage'
@@ -44,12 +45,17 @@ export default function App() {
   async function selectFarm(id: string) {
     setOpenFailed(false)
     try {
-      // The user stays on the current page, which shows the newly active farm.
       await farms.select(id)
+      navigation.navigate('home')
     } catch (error) {
       console.error('Failed to open farm', error)
       setOpenFailed(true)
     }
+  }
+
+  async function createFarm(name: string) {
+    await farms.create(name)
+    navigation.navigate('home')
   }
 
   const destinations: { page: Page; title: string; icon: typeof HomeIcon }[] = [
@@ -97,10 +103,8 @@ export default function App() {
             align="center"
             gap="condensed"
           >
-            <IconButton
-              icon={PersonIcon}
-              aria-label={t('profile.title')}
-              aria-current={current('profile')}
+            <ProfileButton
+              current={navigation.current === 'profile'}
               onClick={() => navigation.navigate('profile')}
             />
           </Stack>
@@ -152,7 +156,7 @@ export default function App() {
         onClose={() => setCreating(false)}
         title={t('farm.new')}
         submitLabel={t('farm.create')}
-        save={farms.create}
+        save={createFarm}
       />
     </>
   )

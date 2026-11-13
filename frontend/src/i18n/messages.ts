@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { useIntl } from 'react-intl'
+import br from '../locales/br.json'
 import en from '../locales/en.json'
 import frFR from '../locales/fr-FR.json'
 import { FALLBACK_LOCALE, type Locale } from './locale'
@@ -14,7 +15,12 @@ function flatten(tree: Tree, prefix = ''): Record<string, string> {
   }, {})
 }
 
-const catalogs: Record<Locale, Record<string, string>> = { 'fr-FR': flatten(frFR), en: flatten(en) }
+const catalogs: Record<Locale, Record<string, string>> = { 'fr-FR': flatten(frFR), en: flatten(en), br: flatten(br) }
+
+// Messages of locale alone, without the fallback.
+export function catalogFor(locale: Locale): Record<string, string> {
+  return catalogs[locale]
+}
 
 // Messages of locale, completed by the fallback locale.
 export function messagesFor(locale: Locale): Record<string, string> {

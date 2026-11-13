@@ -69,18 +69,31 @@ describe('App', () => {
     expect(mainHeading()?.textContent).toBe('Farm settings')
   })
 
-  it('switches farm from the farm button and stays on the current page', async () => {
+  it('switches farm from the farm button and opens its home page', async () => {
     const { user, navigation } = await renderApp('en', ['A', 'B'], 'farm-1')
+    await user.click(within(nav()).getByRole('button', { name: 'Settings' }))
 
     await user.click(within(header()).getByRole('button', { name: 'A' }))
     await user.click(screen.getByRole('option', { name: 'B' }))
 
     await waitFor(() => expect(header().textContent).toContain('B'))
-    expect(navigation.history.get()).toEqual(['home'])
+    expect(navigation.history.get()).toEqual(['home', 'farmSettings', 'home'])
+    expect(within(nav()).getByRole('button', { name: 'Home' }).getAttribute('aria-current')).toBe('page')
   })
 
-  it('creates a farm from the farm button', async () => {
-    const { user } = await renderApp('en', ['A'], 'farm-1')
+  it('stays on the current page when the active farm is picked again', async () => {
+    const { user, navigation } = await renderApp('en', ['A', 'B'], 'farm-1')
+    await user.click(within(nav()).getByRole('button', { name: 'Settings' }))
+
+    await user.click(within(header()).getByRole('button', { name: 'A' }))
+    await user.click(screen.getByRole('option', { name: 'A' }))
+
+    expect(navigation.history.get()).toEqual(['home', 'farmSettings'])
+  })
+
+  it('creates a farm from the farm button and opens its home page', async () => {
+    const { user, navigation } = await renderApp('en', ['A'], 'farm-1')
+    await user.click(within(header()).getByRole('button', { name: 'Profile' }))
 
     await user.click(within(header()).getByRole('button', { name: 'A' }))
     await user.click(screen.getByRole('button', { name: 'New farm' }))
@@ -88,6 +101,7 @@ describe('App', () => {
     await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Create a farm' }))
 
     await waitFor(() => expect(header().textContent).toContain('B'))
+    expect(navigation.history.get()).toEqual(['home', 'profile', 'home'])
   })
 
   it('shows the farm settings tab only while a farm is open', async () => {

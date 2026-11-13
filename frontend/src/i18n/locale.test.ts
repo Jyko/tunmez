@@ -11,6 +11,9 @@ describe('resolveLocale', () => {
     [['EN-gb'], 'en'],
     [['de-DE', 'en-US'], 'en'],
     [['en-US', 'fr-FR'], 'en'],
+    [['br'], 'br'],
+    [['br-FR'], 'br'],
+    [['de-DE', 'br-FR', 'fr-FR'], 'br'],
   ])('resolves %j to %s', (languages, expected) => {
     expect(resolveLocale(languages)).toBe(expected)
   })

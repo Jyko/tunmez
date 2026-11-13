@@ -1,48 +1,48 @@
-# Features
+# Fonctionnalités
 
-Planned functional scope of tunmez. This document describes needs, not progress. `README.md` documents what is implemented.
+Périmètre fonctionnel prévu de tunmez. Ce document décrit des besoins, pas un état d'avancement. `README.md` documente ce qui est implémenté.
 
-## Goal
+## Objectif
 
-Help market gardeners (maraîcher·es) prepare their growing season: get a view of the future, organise work and teams, and support decision-making.
+Aider les maraîcher·es à préparer leur saison de culture : se projeter, organiser le travail et les équipes, et appuyer la prise de décision.
 
-## Macro features
+## Grandes fonctionnalités
 
-### Farm management
+### Gestion des fermes
 
-A user manages several farms. Each farm has its own settings, plots, beds, equipment, statistics, tasks and calendar. See [user-stories/farm-management.md](user-stories/farm-management.md).
+Une personne gère plusieurs fermes. Chaque ferme a ses propres réglages, parcelles, planches, matériel, statistiques, tâches et calendrier. Voir les user stories [0004](user-stories/0004_creer-une-ferme.md) à [0008](user-stories/0008_supprimer-une-ferme.md).
 
-### Crop rotation plan (plan d'assolement)
+### Plan d'assolement
 
-Allocation of crops to plots and beds over the season, and rotation tracking.
+Répartition des cultures sur les parcelles et les planches au fil de la saison, et suivi des rotations.
 
-### Seed and seedling forecast
+### Prévisionnel de semences et de plants
 
-Seed and seedling needs.
+Besoins en semences et en plants.
 
-### Yield forecast
+### Prévisionnel de récoltes
 
-Expected harvests.
+Récoltes attendues.
 
-### Task planning
+### Planification des tâches
 
-Task types:
+Types de tâches :
 
-- soil preparation
-- soil amendment
-- sowing
-- potting up
-- transplanting
-- planting
-- crop maintenance
-- treatment
-- harvest
-- crop destruction
+- préparation du sol
+- amendement du sol
+- semis
+- rempotage
+- repiquage
+- plantation
+- entretien des cultures
+- traitement
+- récolte
+- destruction de culture
 
-### Cost forecast
+### Prévisionnel des coûts
 
-Expected costs.
+Coûts attendus.
 
-### Sales volume and revenue forecast
+### Prévisionnel des volumes de vente et du chiffre d'affaires
 
-Expected sales volumes and revenue.
+Volumes de vente et chiffre d'affaires attendus.

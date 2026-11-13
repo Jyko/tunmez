@@ -1,4 +1,4 @@
-🇫🇷 Français | [🇬🇧 English](../en/farms.md)
+🇫🇷 Français | [🇬🇧 English](../en/farms.md) | [Brezhoneg](../br/atantou.md)
 
 # Fermes
 
@@ -14,11 +14,11 @@ Le nom est obligatoire et ne doit pas dépasser 255 caractères. Deux fermes peu
 
 Le nom de la ferme active s'affiche en haut à gauche, après le nom de l'application, sous la forme `tunmez / nom de la ferme`. Si aucune ferme n'est ouverte, il est remplacé par *Choisir une ferme*, ou par *Aucune ferme* si vous n'en avez pas.
 
-Cliquez dessus, ou utilisez le raccourci Ctrl+O (⌘ Cmd+O sur macOS), pour ouvrir la liste des fermes. La ferme active vient en premier, cochée, suivie des autres, de la plus récemment utilisée à la plus ancienne. Saisissez du texte dans le champ de filtre pour réduire la liste par nom, sans tenir compte des majuscules ni des accents ; parcourez-la avec les flèches du clavier. Choisir une autre ferme en fait la ferme active, et la liste se referme ; vous restez sur la page en cours. Échap referme la liste sans rien changer.
+Cliquez dessus, ou utilisez le raccourci Ctrl+O (⌘ Cmd+O sur macOS), pour ouvrir la liste des fermes. La ferme active vient en premier, cochée, suivie des autres, de la plus récemment utilisée à la plus ancienne. Saisissez du texte dans le champ de filtre pour réduire la liste par nom, sans tenir compte des majuscules ni des accents ; parcourez-la avec les flèches du clavier. Choisir une autre ferme en fait la ferme active, referme la liste et affiche la page d'accueil de cette ferme. Échap referme la liste sans rien changer.
 
 ## Gérer les fermes
 
-Le bouton **Nouvelle ferme**, en bas de la liste des fermes, crée une ferme, qui devient la ferme active.
+Le bouton **Nouvelle ferme**, en bas de la liste des fermes, crée une ferme, qui devient la ferme active ; sa page d'accueil s'affiche.
 
 Les réglages de la ferme active s'ouvrent depuis l'onglet **Réglages**, avec l'icône d'engrenage, sous le nom de l'application. Cet onglet n'apparaît que lorsqu'une ferme est ouverte. La page propose :
 

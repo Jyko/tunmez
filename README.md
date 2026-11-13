@@ -1,4 +1,4 @@
-🇫🇷 Français | [🇬🇧 English](README.en.md)
+🇫🇷 Français | [🇬🇧 English](README.en.md) | [Brezhoneg](README.br.md)
 
 # tunmez
 

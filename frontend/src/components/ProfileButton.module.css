@@ -1,0 +1,6 @@
+/* A round button the size of a medium control, so the avatar fills it. */
+.button {
+  width: var(--control-medium-size);
+  padding: 0;
+  border-radius: var(--borderRadius-full);
+}

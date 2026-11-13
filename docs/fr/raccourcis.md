@@ -1,4 +1,4 @@
-🇫🇷 Français | [🇬🇧 English](../en/keybinds.md)
+🇫🇷 Français | [🇬🇧 English](../en/keybinds.md) | [Brezhoneg](../br/berradennou.md)
 
 # Raccourcis clavier
 

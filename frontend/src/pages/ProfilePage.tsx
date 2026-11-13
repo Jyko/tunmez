@@ -42,11 +42,13 @@ function LanguagePreference() {
   const prefs = useDisplayPreferences()
   const id = useId()
 
-  // Language names are shown in their own language, whatever the interface language.
+  // Language names are shown in their own language, whatever the interface
+  // language, sorted by ISO code under System.
   const locales: { value: LocaleChoice; title: string }[] = [
     { value: '', title: t('settings.system') },
-    { value: 'fr-FR', title: 'Français' },
+    { value: 'br', title: 'Brezhoneg' },
     { value: 'en', title: 'English' },
+    { value: 'fr-FR', title: 'Français' },
   ]
   const selected = locales.find((locale) => locale.value === prefs.locale) ?? locales[0]
 

@@ -31,7 +31,7 @@ const (
 )
 
 // supportedLocales lists the interface languages. An empty locale follows the host.
-var supportedLocales = []string{"fr-FR", "en"}
+var supportedLocales = []string{"fr-FR", "en", "br"}
 
 // Settings are the user's choices, stored in config.yaml.
 type Settings struct {

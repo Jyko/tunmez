@@ -16,6 +16,14 @@ export interface AppState {
   navigation: NavigationState
 }
 
+// Browsers and webviews may lack Intl data for Breton: react-intl then formats
+// numbers and dates with the fallback locale, which suits Breton users in
+// France, so that case is not an error. Other errors keep react-intl's report.
+function reportIntlError(error: { code: string }) {
+  if (error.code === 'MISSING_DATA') return
+  console.error(error)
+}
+
 function Theme({ children }: { children: ReactNode }) {
   const { activeLocale, theme, contrast } = useDisplayPreferences()
   return (
@@ -23,6 +31,7 @@ function Theme({ children }: { children: ReactNode }) {
       locale={activeLocale}
       defaultLocale={FALLBACK_LOCALE}
       messages={messagesFor(activeLocale)}
+      onError={reportIntlError}
     >
       <ThemeProvider {...primerScheme(theme, contrast)}>
         <BaseStyles className={styles.root}>{children}</BaseStyles>

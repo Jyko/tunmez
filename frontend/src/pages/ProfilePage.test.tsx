@@ -28,6 +28,28 @@ describe('ProfilePage', () => {
     expect(displayApi.setLocale).toHaveBeenCalledWith('fr-FR')
   })
 
+  it('lists System first, then the languages sorted by ISO code', async () => {
+    const { user } = await renderPage()
+
+    await user.click(screen.getByRole('button', { name: /^Interface language System/ }))
+
+    expect(screen.getAllByRole('menuitemradio').map((item) => item.textContent)).toEqual([
+      'System',
+      'Brezhoneg',
+      'English',
+      'Français',
+    ])
+  })
+
+  it('offers Breton, named in Breton', async () => {
+    const { user, displayApi } = await renderPage()
+
+    await user.click(screen.getByRole('button', { name: /^Interface language System/ }))
+    await user.click(screen.getByRole('menuitemradio', { name: 'Brezhoneg' }))
+
+    expect(displayApi.setLocale).toHaveBeenCalledWith('br')
+  })
+
   it('saves the chosen theme, dark dimmed included', async () => {
     const { user, displayApi } = await renderPage()
     const theme = screen.getByRole('list', { name: 'Theme' })

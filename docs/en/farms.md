@@ -1,4 +1,4 @@
-[🇫🇷 Français](../fr/fermes.md) | 🇬🇧 English
+[🇫🇷 Français](../fr/fermes.md) | 🇬🇧 English | [Brezhoneg](../br/atantou.md)
 
 # Farms
 
@@ -14,11 +14,11 @@ The name is required and must not exceed 255 characters. Two farms can have the 
 
 The active farm's name is shown at the top left, after the application name, as `tunmez / farm name`. When no farm is open, it is replaced by *Choose a farm*, or by *No farms* if you have none.
 
-Click it, or press Ctrl+O (⌘ Cmd+O on macOS), to open the farm list. The active farm comes first, marked with a check, followed by the others from most to least recently used. Type in the filter field to narrow the list by name, regardless of case and accents; use the arrow keys to move through it. Choosing another farm makes it the active farm and closes the list; you stay on the current page. Escape closes the list without changing anything.
+Click it, or press Ctrl+O (⌘ Cmd+O on macOS), to open the farm list. The active farm comes first, marked with a check, followed by the others from most to least recently used. Type in the filter field to narrow the list by name, regardless of case and accents; use the arrow keys to move through it. Choosing another farm makes it the active farm and closes the list, then shows that farm's home page. Escape closes the list without changing anything.
 
 ## Managing farms
 
-The **New farm** button at the bottom of the farm list creates a farm, which becomes the active farm.
+The **New farm** button at the bottom of the farm list creates a farm, which becomes the active farm; its home page is shown.
 
 The settings of the active farm open from the **Settings** tab, with the gear icon, under the application name. This tab only appears while a farm is open. The page offers:
 

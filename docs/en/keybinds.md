@@ -1,4 +1,4 @@
-[🇫🇷 Français](../fr/raccourcis.md) | 🇬🇧 English
+[🇫🇷 Français](../fr/raccourcis.md) | 🇬🇧 English | [Brezhoneg](../br/berradennou.md)
 
 # Keyboard shortcuts
 

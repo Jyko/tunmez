@@ -56,6 +56,9 @@ func TestDisplayServiceSetLocale(t *testing.T) {
 	if got := svc.Get(ctx); got.Locale != "en" {
 		t.Errorf("Locale = %q, want en", got.Locale)
 	}
+	if err := svc.SetLocale(ctx, "br"); err != nil {
+		t.Fatalf("SetLocale(br): %v, want Breton accepted", err)
+	}
 	if err := svc.SetLocale(ctx, ""); err != nil {
 		t.Fatal(err)
 	}

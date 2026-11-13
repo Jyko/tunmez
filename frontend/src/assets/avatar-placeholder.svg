@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Generic user picture until the profile has one: the Octicons
+       person-fill silhouette. Its colours are part of the image, like a
+       photo, so it reads the same in every theme. -->
+  <rect width="24" height="24" fill="#d1d9e0"/>
+  <path fill="#59636e" transform="translate(3.6 5.2) scale(0.7)" d="M12 2.5a5.25 5.25 0 0 0-2.519 9.857 9.005 9.005 0 0 0-6.477 8.37.75.75 0 0 0 .727.773H20.27a.75.75 0 0 0 .727-.772 9.005 9.005 0 0 0-6.477-8.37A5.25 5.25 0 0 0 12 2.5Z"/>
+</svg>

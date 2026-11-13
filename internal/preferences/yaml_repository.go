@@ -12,7 +12,7 @@ import (
 )
 
 const settingsHeader = `# tunmez settings. Edit them while tunmez is closed.
-# locale: fr-FR or en. Remove the line to follow the system language.
+# locale: fr-FR, en or br. Remove the line to follow the system language.
 # theme: system, light, dark or dark-dimmed.
 # contrast: standard or high.
 `

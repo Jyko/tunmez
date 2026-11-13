@@ -1,4 +1,4 @@
-🇫🇷 Français | [🇬🇧 English](../en/preferences.md)
+🇫🇷 Français | [🇬🇧 English](../en/preferences.md) | [Brezhoneg](../br/gwellveziou.md)
 
 # Préférences d'affichage
 
@@ -6,9 +6,9 @@ tunmez mémorise vos choix d'affichage et les retrouve au lancement suivant.
 
 ## Langue, thème et contraste
 
-Cliquez sur l'icône de profil en haut à droite pour ouvrir la page **Profil**. Sa section **Préférences** propose :
+Cliquez sur l'image de profil ronde en haut à droite pour ouvrir la page **Profil**. Sa section **Préférences** propose :
 
-- **Langue de l'interface**, menu : Système, Français ou English. *Système* suit la langue de votre ordinateur ; si elle n'est ni le français ni l'anglais, l'interface s'affiche en français.
+- **Langue de l'interface**, menu : Système, Brezhoneg, English ou Français. *Système* suit la langue de votre ordinateur ; si elle n'est ni le français, ni l'anglais, ni le breton, l'interface s'affiche en français.
 - **Thème** : Système, Clair, Sombre profond ou Sombre doux. *Sombre doux* est un thème sombre aux contrastes atténués. *Système* suit le réglage clair ou sombre de votre ordinateur, y compris quand il change, et utilise *Sombre doux* en mode sombre.
 - **Contraste élevé**, interrupteur : utilise la variante à contraste élevé du thème, quel qu'il soit.
 
@@ -29,7 +29,7 @@ Les préférences sont enregistrées dans votre profil utilisateur, dans des fic
 La langue, le thème et le contraste. Vous pouvez modifier ce fichier à la main, de préférence quand tunmez est fermé :
 
 ```yaml
-locale: fr-FR   # fr-FR ou en ; supprimez la ligne pour suivre la langue du système
+locale: fr-FR   # fr-FR, en ou br ; supprimez la ligne pour suivre la langue du système
 theme: dark     # system, light, dark ou dark-dimmed
 contrast: high  # standard ou high
 ```

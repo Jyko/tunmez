@@ -1,4 +1,4 @@
-[🇫🇷 Français](../fr/preferences.md) | 🇬🇧 English
+[🇫🇷 Français](../fr/preferences.md) | 🇬🇧 English | [Brezhoneg](../br/gwellveziou.md)
 
 # Display preferences
 
@@ -6,9 +6,9 @@ tunmez remembers your display choices and restores them the next time it starts.
 
 ## Language, theme and contrast
 
-Click the profile icon at the top right to open the **Profile** page. Its **Preferences** section offers:
+Click the round profile picture at the top right to open the **Profile** page. Its **Preferences** section offers:
 
-- **Interface language**, menu: System, Français or English. *System* follows your computer's language; if it is neither French nor English, the interface is shown in French.
+- **Interface language**, menu: System, Brezhoneg, English or Français. *System* follows your computer's language; if it is not French, English or Breton, the interface is shown in French.
 - **Theme**: System, Light, Dark or Dark dimmed. *Dark dimmed* is a dark theme with softer contrast. *System* follows your computer's light or dark setting, including when it changes, and uses *Dark dimmed* in dark mode.
 - **High contrast**, switch: uses the high contrast variant of the theme, whatever the theme.
 
@@ -29,7 +29,7 @@ Preferences are saved in your user profile, in YAML files readable by your user 
 Language, theme and contrast. You can edit this file by hand, preferably while tunmez is closed:
 
 ```yaml
-locale: en      # fr-FR or en; remove the line to follow the system language
+locale: en      # fr-FR, en or br; remove the line to follow the system language
 theme: dark     # system, light, dark or dark-dimmed
 contrast: high  # standard or high
 ```
