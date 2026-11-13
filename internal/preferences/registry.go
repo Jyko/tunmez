@@ -8,7 +8,8 @@ import (
 // Key identifies a preference.
 type Key string
 
-// Known preference keys. A missing key takes its default from DefaultDisplay.
+// Known preference keys. A missing display or window key takes its default
+// from DefaultDisplay; a missing KeyActiveFarm means no farm is active.
 const (
 	KeyLocale          Key = "display.locale"
 	KeyTheme           Key = "display.theme"
@@ -17,6 +18,7 @@ const (
 	KeyWindowX         Key = "window.x"
 	KeyWindowY         Key = "window.y"
 	KeyWindowMaximised Key = "window.maximised"
+	KeyActiveFarm      Key = "farm.active"
 )
 
 // registry declares the value type of every known key.
@@ -28,6 +30,7 @@ var registry = map[Key]Type{
 	KeyWindowX:         TypeInt,
 	KeyWindowY:         TypeInt,
 	KeyWindowMaximised: TypeBool,
+	KeyActiveFarm:      TypeString,
 }
 
 func stringEntry(key Key, v string) Entry { return Entry{Key: key, Value: v, Type: TypeString} }

@@ -70,6 +70,8 @@ Approved development tools:
 - `internal/database` opens the database and applies the migrations. Migrations are numbered SQL files embedded in the binary (`internal/database/migrations/`), applied with goose at startup.
 - Technical identifiers are UUIDv7 stored as `TEXT`.
 - User preferences are typed key-value entries (`preference` table). Keys, types and defaults are declared in code, and only the values the user chose are stored. Adding a preference needs no migration.
+- The active farm is stored as a preference entry.
+- Farm-owned data references `farm(id)` with `ON DELETE CASCADE`, so deleting a farm deletes its data.
 
 ### Frontend
 
@@ -78,6 +80,7 @@ Approved development tools:
 - TypeScript in strict mode, no `any`.
 - Reusable logic lives in composables (`useXxx`).
 - Props and emits are typed. Components stay small and focused.
+- Screens switch through application state, without a router.
 - Wails bindings are only called from API client modules in `src/api/`. Components and composables use these clients, never the bindings directly.
 
 ## User interface
@@ -96,7 +99,7 @@ Approved development tools:
 
 ### User preferences
 
-User choices persist from one session to the next: language, theme, size, maximised state and position of the main window. Language and theme are set from the settings menu in the application bar.
+User choices persist from one session to the next: language, theme, size, maximised state and position of the main window, and the active farm. Language and theme are set from the settings menu in the application bar.
 
 ### Accessibility
 

@@ -10,5 +10,42 @@
     "system": "Système",
     "light": "Clair",
     "dark": "Sombre"
+  },
+  "common": {
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "back": "Retour"
+  },
+  "farm": {
+    "menu": "Exploitations",
+    "hint": "Exploitations ({shortcut})",
+    "list": "Vos exploitations",
+    "new": "Nouvelle exploitation",
+    "manage": "Gérer les exploitations",
+    "create": "Créer une exploitation",
+    "name": "Nom de l'exploitation",
+    "active": "Exploitation active",
+    "none": "Aucune exploitation pour l'instant.",
+    "renameTitle": "Renommer l'exploitation",
+    "renameNamed": "Renommer « {name} »",
+    "deleteNamed": "Supprimer « {name} »",
+    "delete": "Supprimer",
+    "deleteTitle": "Supprimer l'exploitation ?",
+    "deleteWarning": "« {name} » et toutes ses données seront définitivement supprimées. Cette action est irréversible.",
+    "empty": {
+      "title": "Aucune exploitation",
+      "text": "Créez votre première exploitation pour préparer votre saison."
+    },
+    "choose": {
+      "title": "Choisissez une exploitation",
+      "text": "Ouvrez l'une de vos exploitations ou créez-en une nouvelle."
+    },
+    "errors": {
+      "required": "Le nom est obligatoire.",
+      "tooLong": "Le nom ne doit pas dépasser {max} caractères.",
+      "save": "L'enregistrement a échoué. Réessayez.",
+      "delete": "La suppression a échoué. Réessayez.",
+      "open": "L'exploitation n'a pas pu être ouverte. Réessayez."
+    }
   }
 }

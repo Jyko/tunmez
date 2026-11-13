@@ -10,6 +10,7 @@ import (
 	"github.com/wailsapp/wails/v3/pkg/events"
 
 	"github.com/Jyko/tunmez/internal/database"
+	"github.com/Jyko/tunmez/internal/farm"
 	"github.com/Jyko/tunmez/internal/preferences"
 )
 
@@ -33,7 +34,9 @@ func run(ctx context.Context) error {
 	}
 	defer func() { _ = db.Close() }()
 
-	display := preferences.NewDisplayService(preferences.NewSQLiteEntryRepository(db))
+	entries := preferences.NewSQLiteEntryRepository(db)
+	display := preferences.NewDisplayService(entries)
+	farms := farm.NewService(farm.NewSQLiteRepository(db), preferences.NewActiveFarmRepository(entries))
 	prefs, err := display.Get(ctx)
 	if err != nil {
 		return err
@@ -44,6 +47,7 @@ func run(ctx context.Context) error {
 		Description: "Crop rotation planner for market-gardening farms",
 		Services: []application.Service{
 			application.NewService(display),
+			application.NewService(farms),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
