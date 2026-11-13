@@ -1,0 +1,17 @@
+/* Application header, as on GitHub: a muted band holding the title,
+   the global actions and the main navigation tabs. */
+.header {
+  background-color: var(--bgColor-inset);
+}
+
+.banner {
+  margin-bottom: var(--stack-gap-normal);
+}
+
+.context {
+  min-width: 0;
+}
+
+.separator {
+  color: var(--fgColor-muted);
+}

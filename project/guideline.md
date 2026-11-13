@@ -6,8 +6,11 @@ Structural architecture and technical decisions.
 
 - Backend: Go.
 - Desktop application: [Wails](https://wails.io) v3.1.0.
-- Frontend: Vue 3, TypeScript, Vite. Runtime: Node.js 24 LTS, installed through nvm. JS package manager: npm.
-- Design system: Material Design through [Vuetify](https://vuetifyjs.com). Standard components (calendar, lanes, drag-and-drop cards, toasts, etc.) come from Vuetify and are not re-implemented.
+- Frontend: React, TypeScript, Vite. Runtime: Node.js 24 LTS, installed through nvm. JS package manager: npm.
+- Design system: [Primer](https://primer.style), GitHub's design system, through Primer React. GitHub and its web UI are the reference. Layout, typography, theme and components come from Primer:
+  - Components come from `@primer/react` (and `@primer/react/experimental`). No custom UI component is created before the Primer possibilities are exhausted, and never without the maintainer's approval. App components only assemble Primer components.
+  - Styling uses Primer design tokens (`@primer/primitives` CSS variables) in CSS Modules, never hard-coded values, the `sx` prop or the `Box` component. Icons come from `@primer/octicons-react`.
+  - Primer documentation, patterns and tokens are queried through the `@primer/mcp` MCP server (`.mcp.json`).
 - Persistence: SQLite through [github.com/mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
 
 ## Build
@@ -31,19 +34,21 @@ Approved runtime libraries:
 | github.com/pressly/goose/v3 | SQLite schema migrations |
 | github.com/google/uuid | UUIDv7 technical identifiers |
 | github.com/goccy/go-yaml | YAML preference files |
-| Vue 3 | Frontend framework |
-| Vuetify | Material Design components |
-| vue-i18n | Frontend internationalisation |
-| @mdi/js | Material Design icons (SVG) |
+| React, react-dom, react-is | Frontend framework (react-is is a peer dependency of Primer React) |
+| @primer/react | Primer components |
+| @primer/primitives | Primer design tokens and themes (CSS variables) |
+| @primer/octicons-react | Primer icons (Octicons) |
+| react-intl | Frontend internationalisation |
 
 Approved development tools:
 
 | Tool | Use |
 | --- | --- |
 | Vite | Frontend build tool |
-| vite-plugin-vuetify | Vuetify component tree-shaking |
-| Vitest, @vue/test-utils, jsdom | Frontend unit and component tests |
-| ESLint, eslint-plugin-vue, typescript-eslint | Frontend linting |
+| @vitejs/plugin-react | React support for Vite |
+| Vitest, jsdom, @testing-library/react, @testing-library/dom, @testing-library/user-event | Frontend unit and component tests |
+| ESLint, eslint-plugin-react-hooks, typescript-eslint | Frontend linting |
+| @types/react, @types/react-dom, @types/react-is | React type definitions |
 | golangci-lint | Go linting |
 
 ## Code
@@ -80,11 +85,10 @@ Approved development tools:
 
 ### Frontend
 
-- Follow the [Vue style guide](https://vuejs.org/style-guide/).
-- Single-file components with `<script setup lang="ts">` and the Composition API.
+- Follow the [Rules of React](https://react.dev/reference/rules): function components and hooks, enforced by eslint-plugin-react-hooks.
 - TypeScript in strict mode, no `any`.
-- Reusable logic lives in composables (`useXxx`).
-- Props and emits are typed. Components stay small and focused.
+- Shared state lives in framework-agnostic stores (`src/state/`), testable without rendering. Each store is provided through a React context and read with a hook (`useFarms`, `useNavigation`, `useDisplayPreferences`).
+- Props are typed. Components stay small and focused.
 - Pages of the central content switch through the navigation state (`useNavigation`), without a router.
 - Wails bindings are only called from API client modules in `src/api/`. Components and composables use these clients, never the bindings directly.
 
@@ -95,31 +99,30 @@ Approved development tools:
 - Available languages: French and English.
 - Fallback locale: `fr-FR`.
 - The active language follows the host settings and the user's choice.
-- Internationalisation uses vue-i18n.
+- Internationalisation uses react-intl. Translation files are nested JSON with ICU placeholders (`{name}`).
 
 ### Themes
 
-- Light and dark modes.
+- Themes: System, Light, Dark and Dark dimmed (French: Système, Clair, Sombre profond, Sombre doux), the default Primer `light`, `dark` and `dark_dimmed` themes, with their colours unchanged for now. System switches between Light and Dark dimmed.
+- Contrast: standard or high. High contrast uses the Primer high contrast variant of the theme (`light_high_contrast`, `dark_high_contrast`, `dark_dimmed_high_contrast`).
 - The active theme follows the host settings and the user's choice.
 
 ### User preferences
 
-User choices persist from one session to the next: language, theme, size, maximised state and position of the main window, and the active farm. Language and theme are set from the settings page.
+User choices persist from one session to the next: language, theme, contrast, size, maximised state and position of the main window, and the active farm. Language, theme and contrast are set in the preferences of the profile page. They save on selection, as imperative controls (Primer customize pattern): an `ActionMenu` with single selection for the language, a `SegmentedControl` for the theme, a `ToggleSwitch` for high contrast. There is no settings page.
 
 ### Layout
 
-The application is a single-page Material application:
+The application is a single-page application laid out like a GitHub repository page:
 
-- Application bar, from left to right: menu button, application name, then at the right end the farm button (active farm name), the profile button and the settings button. No tagline.
-- Main navigation: always visible on the left, listing the main destinations of the application. The current destination is highlighted. The menu button switches it between two presentations:
-  - collapsed: icons only, each with its label as a tooltip and accessible name; in the future it may show a simplified set of entries;
-  - expanded: icon and label; in the future it may show the complete set of entries.
-- Main navigation entries: home, and the farm settings while a farm is open.
-- Central content: shows one page at a time and holds the core of the application.
-  - The farm button opens the farms page, used to switch farm and create one.
+- Header, on a muted band (`--bgColor-inset`): on the left the application name, a `/` separator and the farm button (active farm name), as GitHub shows `owner / repository`; at the right end the profile button. No tagline. Primer React's `Header` component is not used: it is GitHub's former dark header, on which Primer buttons are not readable.
+- Main navigation: `UnderlineNav` tabs at the bottom of the header, listing the main destinations of the application. The current destination is the selected tab (`aria-current="page"`).
+- Main navigation entries: home, and the farm settings while a farm is open. The farm settings tab is labelled Settings (French: Réglages) with the gear icon, like the Settings tab of a GitHub repository.
+- Central content: shows one page at a time, in a Primer `PageLayout`, and holds the core of the application. Each page starts with a `PageHeader`.
+  - The farm button opens the farm selector, a `SelectPanel` with a filter field, used to switch farm, with a "New farm" action in its footer. There is no farms page.
   - The farm settings page holds the settings of the active farm: rename, and deletion in a danger zone at the bottom of the page.
-  - The profile button opens the profile page, empty for now.
-  - The settings button opens the settings page.
+  - The profile button opens the profile page, which holds the user's preferences (language, theme).
+- Messages follow the Primer notification messaging pattern: `Banner` at the top of the content or inside a dialog, no toast.
 - Navigation history: the central content records the pages visited and can go back to the previous page on command. No button, shortcut or action triggers it yet.
 - When the page changes, focus moves to the page heading, so keyboard and screen reader users land on the new content.
 

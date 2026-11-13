@@ -3,75 +3,78 @@
     "name": "tunmez"
   },
   "settings": {
-    "language": "Langue",
     "theme": "Thème",
     "system": "Système",
     "light": "Clair",
-    "dark": "Sombre",
+    "dark": "Sombre profond",
+    "darkDimmed": "Sombre doux",
+    "invalidFileTitle": "Fichier de réglages invalide",
     "invalidFile": "Le fichier de réglages {path} est invalide. Les réglages par défaut sont utilisés ; il sera remplacé si vous modifiez un réglage dans tunmez.",
-    "title": "Réglages",
-    "appearance": "Apparence",
     "interfaceLanguage": "Langue de l'interface",
     "languageHint": "Système suit la langue de votre ordinateur, ou le français si elle n'est pas disponible.",
-    "themeHint": "Système suit le réglage clair ou sombre de votre ordinateur."
+    "themeHint": "Système suit le réglage clair ou sombre de votre ordinateur.",
+    "highContrast": "Contraste élevé",
+    "highContrastHint": "Renforce le contraste des couleurs pour une meilleure lisibilité, quel que soit le thème."
   },
   "common": {
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "on": "Activé",
+    "off": "Désactivé"
   },
   "farm": {
-    "hint": "Exploitations ({shortcut})",
-    "list": "Vos exploitations",
-    "others": "Autres exploitations",
-    "noneActive": "Aucune exploitation ouverte. Choisissez-en une ci-dessous.",
-    "new": "Nouvelle exploitation",
-    "create": "Créer une exploitation",
-    "name": "Nom de l'exploitation",
-    "active": "Exploitation active",
-    "none": "Aucune exploitation pour l'instant.",
-    "renameTitle": "Renommer l'exploitation",
+    "hint": "Changer de ferme ({shortcut})",
+    "list": "Vos fermes",
+    "new": "Nouvelle ferme",
+    "create": "Créer une ferme",
+    "name": "Nom de la ferme",
+    "renameTitle": "Renommer la ferme",
     "delete": "Supprimer",
-    "deleteTitle": "Supprimer l'exploitation ?",
+    "deleteTitle": "Supprimer la ferme ?",
     "deleteWarning": "« {name} » et toutes ses données seront définitivement supprimées. Cette action est irréversible.",
     "empty": {
-      "title": "Aucune exploitation",
-      "text": "Créez votre première exploitation pour préparer votre saison."
+      "title": "Aucune ferme",
+      "text": "Créez votre première ferme pour préparer votre saison."
     },
     "choose": {
-      "title": "Choisissez une exploitation",
-      "text": "Ouvrez l'une de vos exploitations ou créez-en une nouvelle."
+      "title": "Choisissez une ferme",
+      "text": "Ouvrez l'une de vos fermes ou créez-en une nouvelle."
     },
     "errors": {
       "required": "Le nom est obligatoire.",
       "tooLong": "Le nom ne doit pas dépasser {max} caractères.",
       "save": "L'enregistrement a échoué. Réessayez.",
       "delete": "La suppression a échoué. Réessayez.",
-      "open": "L'exploitation n'a pas pu être ouverte. Réessayez."
+      "open": "La ferme n'a pas pu être ouverte. Réessayez."
     },
     "placeholder": {
-      "none": "Aucune exploitation",
-      "choose": "Choisir une exploitation"
+      "none": "Aucune ferme",
+      "choose": "Choisir une ferme"
     },
-    "openNamed": "Ouvrir « {name} »"
+    "switch": "Changer de ferme",
+    "filter": "Filtrer les fermes",
+    "noMatch": {
+      "title": "Aucune ferme trouvée",
+      "text": "Essayez un autre nom ou créez une nouvelle ferme."
+    }
   },
   "nav": {
     "label": "Navigation",
     "home": "Accueil",
-    "farms": "Exploitations",
-    "toggle": "Développer ou réduire le menu",
-    "farmSettings": "Réglages de l'exploitation"
+    "farmSettings": "Réglages"
   },
   "profile": {
-    "title": "Profil"
+    "title": "Profil",
+    "preferences": "Préférences"
   },
   "farmSettings": {
-    "title": "Réglages de l'exploitation",
+    "title": "Réglages de la ferme",
     "general": "Général",
     "rename": "Renommer",
     "danger": "Zone de danger",
-    "delete": "Supprimer cette exploitation",
-    "deleteHint": "L'exploitation et toutes ses données seront définitivement supprimées.",
+    "delete": "Supprimer cette ferme",
+    "deleteHint": "La ferme et toutes ses données seront définitivement supprimées.",
     "confirmLabel": "Saisissez « {name} » pour confirmer"
   }
 }

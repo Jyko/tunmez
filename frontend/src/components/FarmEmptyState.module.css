@@ -1,0 +1,8 @@
+.list {
+  width: 100%;
+  max-width: 400px;
+  margin: var(--stack-gap-normal) auto;
+  text-align: start;
+  border: var(--borderWidth-thin) solid var(--borderColor-default);
+  border-radius: var(--borderRadius-medium);
+}

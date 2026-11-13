@@ -1,4 +1,4 @@
-[🇫🇷 Français](../fr/exploitations.md) | 🇬🇧 English
+[🇫🇷 Français](../fr/fermes.md) | 🇬🇧 English
 
 # Farms
 
@@ -12,15 +12,15 @@ The name is required and must not exceed 255 characters. Two farms can have the 
 
 ## Switching farms
 
-The active farm's name is shown at the top right, left of the profile icon. When no farm is open, it is replaced by *Choose a farm*, or by *No farms* if you have none.
+The active farm's name is shown at the top left, after the application name, as `tunmez / farm name`. When no farm is open, it is replaced by *Choose a farm*, or by *No farms* if you have none.
 
-Click it, or press Ctrl+O (⌘ Cmd+O on macOS), to open the **Farms** page. It shows each of your farms as a card, from most to least recently used. The **Active farm** section shows the highlighted card of the open farm, and the **Other farms** section shows the cards of the others. Clicking another farm's card makes it the active farm: its card moves to the **Active farm** section and you stay on the page.
+Click it, or press Ctrl+O (⌘ Cmd+O on macOS), to open the farm list. The active farm comes first, marked with a check, followed by the others from most to least recently used. Type in the filter field to narrow the list by name, regardless of case and accents; use the arrow keys to move through it. Choosing another farm makes it the active farm and closes the list; you stay on the current page. Escape closes the list without changing anything.
 
 ## Managing farms
 
-The **New farm** button of the **Farms** page creates a farm, which becomes the active farm.
+The **New farm** button at the bottom of the farm list creates a farm, which becomes the active farm.
 
-The settings of the active farm open from the **Farm settings** entry of the navigation menu, on the left. This entry only appears while a farm is open. The page offers:
+The settings of the active farm open from the **Settings** tab, with the gear icon, under the application name. This tab only appears while a farm is open. The page offers:
 
 - in the **General** section, the **Rename** button to change the farm's name;
 - in the **Danger zone** section, the **Delete this farm** button. To confirm, type the farm's exact name in the window that opens. **Deletion is permanent**: the farm and all its data are erased.

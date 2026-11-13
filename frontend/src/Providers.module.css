@@ -1,0 +1,6 @@
+/* The theme tokens are scoped to the ThemeProvider element, so the root
+   paints the page background itself. */
+.root {
+  min-height: 100vh;
+  background-color: var(--bgColor-default);
+}

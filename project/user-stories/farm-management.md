@@ -25,7 +25,7 @@ Out of scope:
 
 - No farm is ever created automatically.
 - When no farm exists, the home page of the central content shows a centred neutral state with a call to action to create a farm, as in most modern management applications.
-- The call to action is a button with a text label: « Créer une exploitation » / "Create a farm". An icon alone is not enough.
+- The call to action is a button with a text label: « Créer une ferme » / "Create a farm". An icon alone is not enough.
 - When farms exist but none is active, the same empty state also lists the farms so the user can pick one.
 
 ### Startup
@@ -38,7 +38,8 @@ Out of scope:
 
 - The farm button of the application bar (see the layout in `project/guideline.md`) shows the active farm name.
 - When farms exist but none is active, it shows a placeholder text inviting to choose a farm. When no farm exists, it shows a placeholder text saying there is no farm.
-- It opens the farms page in the central content.
+- It shows a trailing chevron, the Primer convention for a button that opens a selection.
+- It opens the farm selector, a Primer `SelectPanel` anchored to the button.
 - The farm button is reachable with the keyboard: through the usual Tab cycling at least, and through a dedicated keyboard shortcut, documented in `docs/fr/raccourcis.md` and `docs/en/keybinds.md`.
 - A name too long for its component is truncated cleanly. The full name stays available.
 
@@ -50,15 +51,14 @@ Out of scope:
 - Names do not need to be unique.
 - The new farm becomes the active farm.
 
-### Switch
+### Farm selector
 
-- Opening a farm from the farms page makes it the active farm and updates its last use. The user stays on the farms page.
-
-### Farms page
-
-- The farm button of the application bar opens the farms page in the central content. The navigation has no farms entry.
-- The page has a "New farm" action, which opens the creation dialog.
-- Lists the farms as cards, most recently used first. The page has an "Active farm" section with the active farm's card, marked, and an "Other farms" section with the other cards; clicking another farm's card opens it. Cards have no other action: rename and delete live in the farm settings page.
+- There is no farms page: the farm selector replaces it. The navigation has no farms entry.
+- Lists every farm, the active farm first and marked as selected, then the others most recently used first.
+- A filter field narrows the list by name, ignoring case and accents. An empty list shows a message: no farm yet, or no farm matching the filter.
+- Choosing another farm makes it the active farm, updates its last use and closes the selector. The user stays on the current page. Choosing the active farm only closes the selector.
+- The selector footer has a "New farm" action, which closes the selector and opens the creation dialog.
+- There is no global create menu while the farm is the only entity created from anywhere in the application.
 
 ### Farm settings page
 
@@ -85,7 +85,7 @@ Implementation guidance, following `project/guideline.md`.
 - New domain `internal/farm`: `farm.Service` bound to the frontend, `farm.Repository` interface, SQLite implementation `farm.SQLiteRepository` in `sqlite_repository.go`.
 - Migration `internal/database/migrations/00002_farm.sql`: table `farm` with `id` (UUIDv7 as `TEXT`), `name TEXT NOT NULL`, creation and last-use timestamps. Future per-farm tables reference `farm(id)` with `ON DELETE CASCADE`.
 - The active farm is a preference entry declared in `internal/preferences/registry.go`, cleared when that farm is deleted.
-- Frontend: an API client in `src/api/`, a `useFarms` composable, and small components for the farm menu, the name dialog, the empty state and the farms page.
+- Frontend: an API client in `src/api/`, a `useFarms` composable, and small components for the farm selector, the name dialog and the empty state.
 - User documentation in French and English is written with the implementation.
 
 ## Choices left to the first implementation

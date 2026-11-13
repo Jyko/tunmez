@@ -1,0 +1,12 @@
+.name {
+  display: block;
+  max-width: min(40vw, 20rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activeName {
+  composes: name;
+  font-weight: var(--base-text-weight-semibold);
+}

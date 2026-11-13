@@ -9,9 +9,10 @@ import (
 // Display holds the display preferences.
 type Display struct {
 	// Locale is the interface language, or empty to follow the host.
-	Locale string `json:"locale"`
-	Theme  Theme  `json:"theme"`
-	Window Window `json:"window"`
+	Locale   string   `json:"locale"`
+	Theme    Theme    `json:"theme"`
+	Contrast Contrast `json:"contrast"`
+	Window   Window   `json:"window"`
 	// InvalidConfig is the path of the settings file when it is invalid and
 	// defaults are used instead, or empty.
 	InvalidConfig string `json:"invalidConfig"`
@@ -44,7 +45,7 @@ func (s *DisplayService) Get(context.Context) Display {
 	if err != nil {
 		log.Printf("load session state: %v", err)
 	}
-	d.Locale, d.Theme, d.Window = settings.Locale, settings.Theme, state.Window
+	d.Locale, d.Theme, d.Contrast, d.Window = settings.Locale, settings.Theme, settings.Contrast, state.Window
 	return d
 }
 
@@ -64,6 +65,14 @@ func (s *DisplayService) SetTheme(_ context.Context, theme Theme) error {
 		return err
 	}
 	return s.settings.Update(func(st *Settings) { st.Theme = theme })
+}
+
+// SetContrast sets the contrast level of the theme.
+func (s *DisplayService) SetContrast(_ context.Context, contrast Contrast) error {
+	if err := validateContrast(contrast); err != nil {
+		return err
+	}
+	return s.settings.Update(func(st *Settings) { st.Contrast = contrast })
 }
 
 // SaveWindow records the main window geometry. When the window is maximised,

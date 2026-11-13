@@ -1,0 +1,26 @@
+.preference {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--stack-gap-condensed);
+  margin-top: var(--stack-gap-normal);
+}
+
+.label {
+  margin: 0;
+  font-size: var(--text-body-size-medium);
+}
+
+.hint {
+  margin: 0;
+  color: var(--fgColor-muted);
+}
+
+/* Label and description beside the switch (Primer ToggleSwitch with caption). */
+.switchRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--stack-gap-normal);
+  width: 100%;
+}

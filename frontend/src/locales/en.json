@@ -3,33 +3,32 @@
     "name": "tunmez"
   },
   "settings": {
-    "language": "Language",
     "theme": "Theme",
     "system": "System",
     "light": "Light",
     "dark": "Dark",
+    "darkDimmed": "Dark dimmed",
+    "invalidFileTitle": "Invalid settings file",
     "invalidFile": "The settings file {path} is invalid. Default settings are used; the file will be replaced if you change a setting in tunmez.",
-    "title": "Settings",
-    "appearance": "Appearance",
     "interfaceLanguage": "Interface language",
     "languageHint": "System follows your computer's language, or French if it is not available.",
-    "themeHint": "System follows your computer's light or dark setting."
+    "themeHint": "System follows your computer's light or dark setting.",
+    "highContrast": "High contrast",
+    "highContrastHint": "Increases colour contrast for easier reading, in every theme."
   },
   "common": {
     "cancel": "Cancel",
     "save": "Save",
-    "close": "Close"
+    "close": "Close",
+    "on": "On",
+    "off": "Off"
   },
   "farm": {
-    "hint": "Farms ({shortcut})",
+    "hint": "Switch farm ({shortcut})",
     "list": "Your farms",
-    "others": "Other farms",
-    "noneActive": "No farm is open. Choose one below.",
     "new": "New farm",
     "create": "Create a farm",
     "name": "Farm name",
-    "active": "Active farm",
-    "none": "No farms yet.",
     "renameTitle": "Rename farm",
     "delete": "Delete",
     "deleteTitle": "Delete this farm?",
@@ -53,17 +52,21 @@
       "none": "No farms",
       "choose": "Choose a farm"
     },
-    "openNamed": "Open “{name}”"
+    "switch": "Switch farm",
+    "filter": "Filter farms",
+    "noMatch": {
+      "title": "No matching farm",
+      "text": "Try another name or create a new farm."
+    }
   },
   "nav": {
     "label": "Navigation",
     "home": "Home",
-    "farms": "Farms",
-    "toggle": "Expand or collapse the menu",
-    "farmSettings": "Farm settings"
+    "farmSettings": "Settings"
   },
   "profile": {
-    "title": "Profile"
+    "title": "Profile",
+    "preferences": "Preferences"
   },
   "farmSettings": {
     "title": "Farm settings",

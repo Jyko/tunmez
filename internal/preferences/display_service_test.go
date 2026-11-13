@@ -15,7 +15,11 @@ import (
 func TestDisplayServiceGetDefaults(t *testing.T) {
 	got := newFiles(t).display().Get(context.Background())
 
-	want := preferences.Display{Theme: preferences.ThemeSystem, Window: preferences.DefaultState().Window}
+	want := preferences.Display{
+		Theme:    preferences.ThemeSystem,
+		Contrast: preferences.ContrastStandard,
+		Window:   preferences.DefaultState().Window,
+	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("Get() = %+v, want %+v", got, want)
 	}
@@ -67,14 +71,37 @@ func TestDisplayServiceSetTheme(t *testing.T) {
 	ctx := context.Background()
 	svc := newFiles(t).display()
 
-	if err := svc.SetTheme(ctx, preferences.ThemeDark); err != nil {
-		t.Fatal(err)
-	}
-	if got := svc.Get(ctx); got.Theme != preferences.ThemeDark {
-		t.Errorf("Theme = %q, want dark", got.Theme)
+	for _, theme := range []preferences.Theme{
+		preferences.ThemeLight, preferences.ThemeDark, preferences.ThemeDarkDimmed, preferences.ThemeSystem,
+	} {
+		if err := svc.SetTheme(ctx, theme); err != nil {
+			t.Fatalf("SetTheme(%q): %v", theme, err)
+		}
+		if got := svc.Get(ctx); got.Theme != theme {
+			t.Errorf("Theme = %q, want %q", got.Theme, theme)
+		}
 	}
 	if err := svc.SetTheme(ctx, "sepia"); err == nil {
 		t.Error("SetTheme(sepia): err = nil, want an error")
+	}
+}
+
+func TestDisplayServiceSetContrast(t *testing.T) {
+	ctx := context.Background()
+	f := newFiles(t)
+	svc := f.display()
+
+	if err := svc.SetContrast(ctx, preferences.ContrastHigh); err != nil {
+		t.Fatal(err)
+	}
+	if got := svc.Get(ctx); got.Contrast != preferences.ContrastHigh {
+		t.Errorf("Contrast = %q, want high", got.Contrast)
+	}
+	if !strings.Contains(read(t, f.config), "contrast: high\n") {
+		t.Error("config.yaml does not record the high contrast")
+	}
+	if err := svc.SetContrast(ctx, "extreme"); err == nil {
+		t.Error("SetContrast(extreme): err = nil, want an error")
 	}
 }
 

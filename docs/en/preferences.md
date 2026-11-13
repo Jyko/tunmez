@@ -4,12 +4,13 @@
 
 tunmez remembers your display choices and restores them the next time it starts.
 
-## Language and theme
+## Language, theme and contrast
 
-Click the gear icon at the top right to open the **Settings** page:
+Click the profile icon at the top right to open the **Profile** page. Its **Preferences** section offers:
 
-- **Language**, *Interface language* list: System, Français or English. *System* follows your computer's language; if it is neither French nor English, the interface is shown in French.
-- **Appearance**, *Theme*: System, Light or Dark. *System* follows your computer's light or dark setting, including when it changes.
+- **Interface language**, menu: System, Français or English. *System* follows your computer's language; if it is neither French nor English, the interface is shown in French.
+- **Theme**: System, Light, Dark or Dark dimmed. *Dark dimmed* is a dark theme with softer contrast. *System* follows your computer's light or dark setting, including when it changes, and uses *Dark dimmed* in dark mode.
+- **High contrast**, switch: uses the high contrast variant of the theme, whatever the theme.
 
 Changes apply immediately.
 
@@ -25,11 +26,12 @@ Preferences are saved in your user profile, in YAML files readable by your user 
 
 ### Settings: `config.yaml`
 
-Language and theme. You can edit this file by hand, preferably while tunmez is closed:
+Language, theme and contrast. You can edit this file by hand, preferably while tunmez is closed:
 
 ```yaml
 locale: en      # fr-FR or en; remove the line to follow the system language
-theme: dark     # system, light or dark
+theme: dark     # system, light, dark or dark-dimmed
+contrast: high  # standard or high
 ```
 
 Location:

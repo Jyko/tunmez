@@ -39,15 +39,15 @@ Use the `mcp__plugin_playwright_playwright__*` tools:
 
 1. `browser_navigate` to `http://localhost:8765/`.
 2. `browser_snapshot` gives the accessibility tree with element refs. Prefer it to find and act on elements; it also shows accessible names and roles, which helps check WCAG labelling.
-3. Act with `browser_click`, `browser_hover`, `browser_type`, `browser_fill_form`, `browser_press_key` (`Tab` for focus order; app shortcuts such as `Control+o` for the farms page).
-4. `browser_take_screenshot` and look at the image (`Read` the saved file). A blank page means the app did not start: read the logs. Use `target` to capture only the component under work. After a hover or focus, wait about 300 ms (`browser_wait_for` with `time`) before the screenshot: Vuetify state overlays fade in, and an immediate capture misses them.
+3. Act with `browser_click`, `browser_hover`, `browser_type`, `browser_fill_form`, `browser_press_key` (`Tab` for focus order; app shortcuts such as `Control+o` for the farm selector).
+4. `browser_take_screenshot` and look at the image (`Read` the saved file). A blank page means the app did not start: read the logs. Use `target` to capture only the component under work. After a hover or focus, wait about 300 ms (`browser_wait_for` with `time`) before the screenshot: Primer hover and focus states, and tooltips, transition in, and an immediate capture misses them.
 5. `browser_console_messages` with level `error` after each flow. Expected noise: the Vite WebSocket `501`, a `favicon.ico` 404, and the Wails "Browser Environment Detected" warning (the bindings still work in server mode).
 
 The browser locale is English, so the UI starts in English until a language is chosen on the settings page.
 
 Variants to check for a UI change:
 
-- Theme: `browser_emulate_media` with `colorScheme` `dark` or `light`. It applies while the theme setting is "system". The theme switch is animated: wait about 1.5 s before a screenshot, otherwise the capture mixes both themes (light grey cards on dark, invisible headings) and looks like a bug.
+- Theme: `browser_emulate_media` with `colorScheme` `dark` or `light`. It applies while the theme setting is "system". Primer controls transition their colours on a theme switch: wait about 1.5 s before a screenshot, otherwise some buttons show a mix of both themes (filled grey, invisible icon) and look like a bug.
 - Language: change it on the settings page. The browser locale only applies when no language is saved.
 - Width: `browser_resize`, for example 600 px wide for a narrow window.
 - States: hover, keyboard focus (`Tab`), dialogs, empty state (`start.sh --reset`).

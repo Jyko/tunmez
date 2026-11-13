@@ -49,16 +49,17 @@ func TestYAMLRepositoryKeepsDefaultsForMissingKeys(t *testing.T) {
 	write(t, path, "locale: fr-FR\n")
 
 	got, err := preferences.NewSettingsRepository(path).Load()
-	if err != nil || got != (preferences.Settings{Locale: "fr-FR", Theme: preferences.ThemeSystem}) {
-		t.Errorf("Load() = %+v, %v, want fr-FR with the system theme", got, err)
+	if err != nil || got != (preferences.Settings{Locale: "fr-FR", Theme: preferences.ThemeSystem, Contrast: preferences.ContrastStandard}) {
+		t.Errorf("Load() = %+v, %v, want fr-FR with the system theme and standard contrast", got, err)
 	}
 }
 
 func TestYAMLRepositoryReportsInvalidFiles(t *testing.T) {
 	for name, content := range map[string]string{
-		"syntax":      "theme: [dark\n",
-		"wrong value": "theme: sepia\n",
-		"wrong type":  "locale: [en]\n",
+		"syntax":         "theme: [dark\n",
+		"wrong value":    "theme: sepia\n",
+		"wrong contrast": "contrast: extreme\n",
+		"wrong type":     "locale: [en]\n",
 	} {
 		t.Run(name, func(t *testing.T) {
 			path := newFiles(t).config
@@ -87,7 +88,7 @@ func TestYAMLRepositoryUpdateReplacesInvalidFile(t *testing.T) {
 	if err := repo.Update(func(s *preferences.Settings) { s.Theme = preferences.ThemeLight }); err != nil {
 		t.Fatal(err)
 	}
-	if got, err := repo.Load(); err != nil || got != (preferences.Settings{Theme: preferences.ThemeLight}) {
+	if got, err := repo.Load(); err != nil || got != (preferences.Settings{Theme: preferences.ThemeLight, Contrast: preferences.ContrastStandard}) {
 		t.Errorf("Load() = %+v, %v, want defaults with the light theme", got, err)
 	}
 }
