@@ -8,6 +8,10 @@ Help market gardeners (maraîcher·es) prepare their growing season: get a view 
 
 ## Macro features
 
+### Farm management
+
+A user manages several farms. Each farm has its own settings, plots, beds, equipment, statistics, tasks and calendar. See [user-stories/farm-management.md](user-stories/farm-management.md).
+
 ### Crop rotation plan (plan d'assolement)
 
 Allocation of crops to plots and beds over the season, and rotation tracking.

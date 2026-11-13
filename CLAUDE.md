@@ -7,6 +7,7 @@ Instructions for Claude Code in this repository.
 Read the relevant file before acting. Do not duplicate its content here.
 
 - `project/features.md`: planned functional scope. Read it for any feature work.
+- `project/user-stories/`: user stories, one file per story. Read the relevant one for any feature work.
 - `project/guideline.md`: architecture and technical decisions, approved libraries, code, UI and documentation rules. Read it before any change.
 - `README.md` / `README.en.md`: user-facing presentation (French / English).
 - `docs/fr/`, `docs/en/`: user documentation (French / English, same structure).
