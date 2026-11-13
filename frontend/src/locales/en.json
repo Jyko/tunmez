@@ -2,5 +2,13 @@
   "app": {
     "name": "tunmez",
     "tagline": "Crop rotation planner"
+  },
+  "settings": {
+    "open": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
   }
 }

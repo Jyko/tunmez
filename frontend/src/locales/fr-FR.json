@@ -2,5 +2,13 @@
   "app": {
     "name": "tunmez",
     "tagline": "Planificateur d'assolement"
+  },
+  "settings": {
+    "open": "Réglages",
+    "language": "Langue",
+    "theme": "Thème",
+    "system": "Système",
+    "light": "Clair",
+    "dark": "Sombre"
   }
 }

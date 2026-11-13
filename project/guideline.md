@@ -28,6 +28,8 @@ Approved runtime libraries:
 | --- | --- |
 | Wails v3 | Desktop shell, Go/frontend bindings |
 | github.com/mattn/go-sqlite3 | SQLite driver |
+| github.com/pressly/goose/v3 | SQLite schema migrations |
+| github.com/google/uuid | UUIDv7 technical identifiers |
 | Vue 3 | Frontend framework |
 | Vuetify | Material Design components |
 | vue-i18n | Frontend internationalisation |
@@ -53,7 +55,21 @@ Approved development tools:
 
 - Follow the Go guidelines and philosophy to the letter ([Effective Go](https://go.dev/doc/effective_go), [Go Code Review Comments](https://go.dev/wiki/CodeReviewComments)).
 - Code is self-documenting: clear names and small functions. Comments explain why, not what. Doc comments on exported identifiers follow [Go Doc Comments](https://go.dev/doc/comment).
-- The package layout is defined step by step.
+- The package layout is defined step by step. Domain code lives in `internal/<domain>`.
+
+### Architecture
+
+- Responsibilities are separated: services hold the business logic, repositories hold the data access.
+- SQL is only used in `internal/database` and in repositories. A service never accesses the database directly.
+- A service depends on a repository interface declared in its own package. The SQLite implementation lives next to it in a `sqlite_<entity>_repository.go` file.
+- Naming: entity + role, the package name qualifying the domain, for example `preferences.DisplayService`, `preferences.EntryRepository`, `preferences.SQLiteEntryRepository`. Never repeat the package name (`preferences.PreferencesService`).
+
+### Persistence
+
+- A single SQLite database, stored in the user data directory: `$XDG_DATA_HOME/tunmez/tunmez.db` (default `~/.local/share/tunmez/tunmez.db`) on Linux, `tunmez/tunmez.db` under the user configuration directory on macOS and Windows. The file is owner-only (`0600`).
+- `internal/database` opens the database and applies the migrations. Migrations are numbered SQL files embedded in the binary (`internal/database/migrations/`), applied with goose at startup.
+- Technical identifiers are UUIDv7 stored as `TEXT`.
+- User preferences are typed key-value entries (`preference` table). Keys, types and defaults are declared in code, and only the values the user chose are stored. Adding a preference needs no migration.
 
 ### Frontend
 
@@ -62,6 +78,7 @@ Approved development tools:
 - TypeScript in strict mode, no `any`.
 - Reusable logic lives in composables (`useXxx`).
 - Props and emits are typed. Components stay small and focused.
+- Wails bindings are only called from API client modules in `src/api/`. Components and composables use these clients, never the bindings directly.
 
 ## User interface
 
@@ -79,7 +96,7 @@ Approved development tools:
 
 ### User preferences
 
-User choices (language, theme, etc.) persist from one session to the next.
+User choices persist from one session to the next: language, theme, size, maximised state and position of the main window. Language and theme are set from the settings menu in the application bar.
 
 ### Accessibility
 
