@@ -4,4 +4,8 @@
 
 The primary modifier key is ⌘ Cmd on macOS and Ctrl on Windows and Linux.
 
-No shortcuts are available yet.
+| Shortcut | Action |
+| --- | --- |
+| Ctrl+O (⌘ Cmd+O) | Open the [farm](farms.md) menu |
+
+The farm menu can also be reached with the Tab key, like every element of the interface.

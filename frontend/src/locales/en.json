@@ -10,5 +10,42 @@
     "system": "System",
     "light": "Light",
     "dark": "Dark"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "back": "Back"
+  },
+  "farm": {
+    "menu": "Farms",
+    "hint": "Farms ({shortcut})",
+    "list": "Your farms",
+    "new": "New farm",
+    "manage": "Manage farms",
+    "create": "Create a farm",
+    "name": "Farm name",
+    "active": "Active farm",
+    "none": "No farms yet.",
+    "renameTitle": "Rename farm",
+    "renameNamed": "Rename “{name}”",
+    "deleteNamed": "Delete “{name}”",
+    "delete": "Delete",
+    "deleteTitle": "Delete this farm?",
+    "deleteWarning": "“{name}” and all its data will be permanently deleted. This cannot be undone.",
+    "empty": {
+      "title": "No farms yet",
+      "text": "Create your first farm to prepare your season."
+    },
+    "choose": {
+      "title": "Choose a farm",
+      "text": "Open one of your farms or create a new one."
+    },
+    "errors": {
+      "required": "The name is required.",
+      "tooLong": "The name must not exceed {max} characters.",
+      "save": "Saving failed. Please try again.",
+      "delete": "Deletion failed. Please try again.",
+      "open": "The farm could not be opened. Please try again."
+    }
   }
 }
