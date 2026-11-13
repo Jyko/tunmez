@@ -34,13 +34,18 @@ func run(ctx context.Context) error {
 	}
 	defer func() { _ = db.Close() }()
 
-	entries := preferences.NewSQLiteEntryRepository(db)
-	display := preferences.NewDisplayService(entries)
-	farms := farm.NewService(farm.NewSQLiteRepository(db), preferences.NewActiveFarmRepository(entries))
-	prefs, err := display.Get(ctx)
+	configPath, err := preferences.ConfigPath()
 	if err != nil {
 		return err
 	}
+	statePath, err := preferences.StatePath()
+	if err != nil {
+		return err
+	}
+	state := preferences.NewStateRepository(statePath)
+	display := preferences.NewDisplayService(preferences.NewSettingsRepository(configPath), state)
+	farms := farm.NewService(farm.NewSQLiteRepository(db), preferences.NewActiveFarmRepository(state))
+	prefs := display.Get(ctx)
 
 	app := application.New(application.Options{
 		Name:        "tunmez",

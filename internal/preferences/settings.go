@@ -1,3 +1,6 @@
+// Package preferences stores the user's preferences in YAML files in their
+// profile: settings they may edit by hand, and the session state the
+// application restores at startup.
 package preferences
 
 import (
@@ -18,30 +21,25 @@ const (
 // supportedLocales lists the interface languages. An empty locale follows the host.
 var supportedLocales = []string{"fr-FR", "en"}
 
-// Display holds the display preferences.
-type Display struct {
+// Settings are the user's choices, stored in config.yaml.
+type Settings struct {
 	// Locale is the interface language, or empty to follow the host.
-	Locale string `json:"locale"`
-	Theme  Theme  `json:"theme"`
-	Window Window `json:"window"`
+	Locale string `yaml:"locale,omitempty"`
+	Theme  Theme  `yaml:"theme"`
 }
 
-// Window holds the main window geometry. X and Y are nil until a position
-// has been saved.
-type Window struct {
-	Width     int  `json:"width"`
-	Height    int  `json:"height"`
-	X         *int `json:"x"`
-	Y         *int `json:"y"`
-	Maximised bool `json:"maximised"`
+// DefaultSettings returns the settings used before any choice is saved.
+func DefaultSettings() Settings {
+	return Settings{Theme: ThemeSystem}
 }
 
-// DefaultDisplay returns the display preferences used before any choice is saved.
-func DefaultDisplay() Display {
-	return Display{
-		Theme:  ThemeSystem,
-		Window: Window{Width: 1280, Height: 800},
+func (s Settings) validate() error {
+	if s.Locale != "" {
+		if err := validateLocale(s.Locale); err != nil {
+			return err
+		}
 	}
+	return validateTheme(s.Theme)
 }
 
 func validateLocale(locale string) error {
@@ -57,11 +55,4 @@ func validateTheme(theme Theme) error {
 		return nil
 	}
 	return fmt.Errorf("unsupported theme %q", theme)
-}
-
-func validateWindow(w Window) error {
-	if w.Width <= 0 || w.Height <= 0 {
-		return fmt.Errorf("invalid window size %dx%d", w.Width, w.Height)
-	}
-	return nil
 }

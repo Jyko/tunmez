@@ -9,6 +9,8 @@ export type LocaleChoice = Locale | ''
 export interface DisplayPreferences {
   locale: LocaleChoice
   theme: ThemeChoice
+  // Path of the settings file when it is invalid and defaults are used, or empty.
+  invalidConfig: string
 }
 
 export interface DisplayPreferencesApi {
@@ -35,7 +37,11 @@ function toThemeChoice(theme: Theme): ThemeChoice {
 export const displayPreferencesApi: DisplayPreferencesApi = {
   async load() {
     const display = await DisplayService.Get()
-    return { locale: toLocaleChoice(display.locale), theme: toThemeChoice(display.theme) }
+    return {
+      locale: toLocaleChoice(display.locale),
+      theme: toThemeChoice(display.theme),
+      invalidConfig: display.invalidConfig,
+    }
   },
   async setLocale(locale) {
     await DisplayService.SetLocale(locale)

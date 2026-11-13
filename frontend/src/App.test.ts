@@ -13,8 +13,8 @@ afterEach(() => {
   document.body.innerHTML = ''
 })
 
-async function mountApp(locale: Locale = 'en', names: string[] = [], activeId = '') {
-  const { global } = await setupApp(locale, memoryFarmsApi(names, activeId))
+async function mountApp(locale: Locale = 'en', names: string[] = [], activeId = '', invalidConfig = '') {
+  const { global } = await setupApp(locale, memoryFarmsApi(names, activeId), { invalidConfig })
   wrapper = mount(App, { attachTo: document.body, global })
   return wrapper
 }
@@ -57,5 +57,21 @@ describe('App', () => {
 
     expect(w.get('header').text()).toContain('Les Jardins du Lac')
     expect(w.find('main h1').exists()).toBe(false)
+  })
+
+  it('warns about an invalid settings file', async () => {
+    await mountApp('en', [], '', '/home/grower/.config/tunmez/config.yaml')
+    await flushPromises()
+
+    expect(document.body.textContent).toContain(
+      'The settings file /home/grower/.config/tunmez/config.yaml is invalid.',
+    )
+  })
+
+  it('shows no warning for a valid settings file', async () => {
+    await mountApp('en')
+    await flushPromises()
+
+    expect(document.body.textContent).not.toContain('The settings file')
   })
 })

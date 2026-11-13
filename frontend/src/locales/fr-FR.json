@@ -9,12 +9,14 @@
     "theme": "Thème",
     "system": "Système",
     "light": "Clair",
-    "dark": "Sombre"
+    "dark": "Sombre",
+    "invalidFile": "Le fichier de réglages {path} est invalide. Les réglages par défaut sont utilisés ; il sera remplacé si vous modifiez un réglage dans tunmez."
   },
   "common": {
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "back": "Retour"
+    "back": "Retour",
+    "close": "Fermer"
   },
   "farm": {
     "menu": "Exploitations",

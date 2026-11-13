@@ -9,12 +9,14 @@
     "theme": "Theme",
     "system": "System",
     "light": "Light",
-    "dark": "Dark"
+    "dark": "Dark",
+    "invalidFile": "The settings file {path} is invalid. Default settings are used; the file will be replaced if you change a setting in tunmez."
   },
   "common": {
     "cancel": "Cancel",
     "save": "Save",
-    "back": "Back"
+    "back": "Back",
+    "close": "Close"
   },
   "farm": {
     "menu": "Farms",

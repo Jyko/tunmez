@@ -7,6 +7,8 @@ import type { I18nPlugin } from '../plugins/i18n'
 export interface DisplayPreferencesState {
   locale: Readonly<Ref<LocaleChoice>>
   theme: Readonly<Ref<ThemeChoice>>
+  // Path of the settings file when it is invalid and defaults are used, or empty.
+  invalidConfig: Readonly<Ref<string>>
   load(): Promise<void>
   setLocale(locale: LocaleChoice): Promise<void>
   setTheme(theme: ThemeChoice): Promise<void>
@@ -26,6 +28,7 @@ export const displayPreferencesKey: InjectionKey<DisplayPreferencesState> = Symb
 export function createDisplayPreferences({ api, i18n, theme, hostLanguages }: Options): DisplayPreferencesState {
   const locale = ref<LocaleChoice>('')
   const themeChoice = ref<ThemeChoice>('system')
+  const invalidConfig = ref('')
 
   function applyLocale(choice: LocaleChoice) {
     locale.value = choice
@@ -40,11 +43,13 @@ export function createDisplayPreferences({ api, i18n, theme, hostLanguages }: Op
   return {
     locale,
     theme: themeChoice,
+    invalidConfig,
     async load() {
       try {
         const stored = await api.load()
         applyLocale(stored.locale)
         applyTheme(stored.theme)
+        invalidConfig.value = stored.invalidConfig
       } catch (error) {
         // The interface stays usable with host defaults.
         console.error('Failed to load display preferences', error)

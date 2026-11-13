@@ -17,7 +17,7 @@ async function openMenu() {
   const i18n = createI18nPlugin('en')
   const vuetify = createVuetifyPlugin(i18n)
   const api: DisplayPreferencesApi = {
-    load: vi.fn(async () => ({ locale: '', theme: 'system' }) as const),
+    load: vi.fn(async () => ({ locale: '', theme: 'system', invalidConfig: '' }) as const),
     setLocale: vi.fn(async () => {}),
     setTheme: vi.fn(async () => {}),
   }

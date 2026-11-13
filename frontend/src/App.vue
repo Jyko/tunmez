@@ -7,10 +7,15 @@ import FarmManagement from './components/FarmManagement.vue'
 import FarmMenu from './components/FarmMenu.vue'
 import FarmNameDialog from './components/FarmNameDialog.vue'
 import SettingsMenu from './components/SettingsMenu.vue'
+import { useDisplayPreferences } from './composables/useDisplayPreferences'
 import { useFarms } from './composables/useFarms'
 
 const { t } = useI18n()
 const farms = useFarms()
+const prefs = useDisplayPreferences()
+
+// Shown once at startup; the file is replaced when a setting changes.
+const invalidConfigShown = ref(prefs.invalidConfig.value !== '')
 
 // Screens switch through this state: the application has no router.
 const screen = ref<'home' | 'farms'>('home')
@@ -71,6 +76,20 @@ async function selectFarm(id: string) {
       color="error"
     >
       {{ t('farm.errors.open') }}
+    </v-snackbar>
+    <v-snackbar
+      v-model="invalidConfigShown"
+      color="warning"
+      timeout="-1"
+      multi-line
+    >
+      {{ t('settings.invalidFile', { path: prefs.invalidConfig.value }) }}
+      <template #actions>
+        <v-btn
+          :text="t('common.close')"
+          @click="invalidConfigShown = false"
+        />
+      </template>
     </v-snackbar>
   </v-app>
 </template>
