@@ -1,36 +1,36 @@
 {
   "app": {
-    "name": "tunmez",
-    "tagline": "Crop rotation planner"
+    "name": "tunmez"
   },
   "settings": {
-    "open": "Settings",
     "language": "Language",
     "theme": "Theme",
     "system": "System",
     "light": "Light",
     "dark": "Dark",
-    "invalidFile": "The settings file {path} is invalid. Default settings are used; the file will be replaced if you change a setting in tunmez."
+    "invalidFile": "The settings file {path} is invalid. Default settings are used; the file will be replaced if you change a setting in tunmez.",
+    "title": "Settings",
+    "appearance": "Appearance",
+    "interfaceLanguage": "Interface language",
+    "languageHint": "System follows your computer's language, or French if it is not available.",
+    "themeHint": "System follows your computer's light or dark setting."
   },
   "common": {
     "cancel": "Cancel",
     "save": "Save",
-    "back": "Back",
     "close": "Close"
   },
   "farm": {
-    "menu": "Farms",
     "hint": "Farms ({shortcut})",
     "list": "Your farms",
+    "others": "Other farms",
+    "noneActive": "No farm is open. Choose one below.",
     "new": "New farm",
-    "manage": "Manage farms",
     "create": "Create a farm",
     "name": "Farm name",
     "active": "Active farm",
     "none": "No farms yet.",
     "renameTitle": "Rename farm",
-    "renameNamed": "Rename “{name}”",
-    "deleteNamed": "Delete “{name}”",
     "delete": "Delete",
     "deleteTitle": "Delete this farm?",
     "deleteWarning": "“{name}” and all its data will be permanently deleted. This cannot be undone.",
@@ -48,6 +48,30 @@
       "save": "Saving failed. Please try again.",
       "delete": "Deletion failed. Please try again.",
       "open": "The farm could not be opened. Please try again."
-    }
+    },
+    "placeholder": {
+      "none": "No farms",
+      "choose": "Choose a farm"
+    },
+    "openNamed": "Open “{name}”"
+  },
+  "nav": {
+    "label": "Navigation",
+    "home": "Home",
+    "farms": "Farms",
+    "toggle": "Expand or collapse the menu",
+    "farmSettings": "Farm settings"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "farmSettings": {
+    "title": "Farm settings",
+    "general": "General",
+    "rename": "Rename",
+    "danger": "Danger zone",
+    "delete": "Delete this farm",
+    "deleteHint": "The farm and all its data will be permanently deleted.",
+    "confirmLabel": "Type “{name}” to confirm"
   }
 }

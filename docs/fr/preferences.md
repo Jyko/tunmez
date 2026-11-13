@@ -6,10 +6,10 @@ tunmez mémorise vos choix d'affichage et les retrouve au lancement suivant.
 
 ## Langue et thème
 
-Ouvrez le menu **Réglages** (icône d'engrenage en haut à droite) :
+Cliquez sur l'icône d'engrenage en haut à droite pour ouvrir la page **Réglages** :
 
-- **Langue** : Système, Français ou English. *Système* suit la langue de votre ordinateur ; si elle n'est ni le français ni l'anglais, l'interface s'affiche en français.
-- **Thème** : Système, Clair ou Sombre. *Système* suit le réglage clair ou sombre de votre ordinateur, y compris quand il change.
+- **Langue**, liste *Langue de l'interface* : Système, Français ou English. *Système* suit la langue de votre ordinateur ; si elle n'est ni le français ni l'anglais, l'interface s'affiche en français.
+- **Apparence**, *Thème* : Système, Clair ou Sombre. *Système* suit le réglage clair ou sombre de votre ordinateur, y compris quand il change.
 
 Le changement s'applique immédiatement.
 

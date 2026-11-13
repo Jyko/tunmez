@@ -6,10 +6,10 @@ tunmez remembers your display choices and restores them the next time it starts.
 
 ## Language and theme
 
-Open the **Settings** menu (gear icon, top right):
+Click the gear icon at the top right to open the **Settings** page:
 
-- **Language**: System, Français or English. *System* follows your computer's language; if it is neither French nor English, the interface is shown in French.
-- **Theme**: System, Light or Dark. *System* follows your computer's light or dark setting, including when it changes.
+- **Language**, *Interface language* list: System, Français or English. *System* follows your computer's language; if it is neither French nor English, the interface is shown in French.
+- **Appearance**, *Theme*: System, Light or Dark. *System* follows your computer's light or dark setting, including when it changes.
 
 Changes apply immediately.
 

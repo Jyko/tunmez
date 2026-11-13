@@ -3,6 +3,7 @@ import type { DisplayPreferences } from '../api/displayPreferences'
 import type { FarmsApi } from '../api/farms'
 import { createDisplayPreferences, displayPreferencesKey } from '../composables/useDisplayPreferences'
 import { createFarms, farmsKey } from '../composables/useFarms'
+import { createNavigation, navigationKey } from '../composables/useNavigation'
 import type { Locale } from '../i18n/locale'
 import { createI18nPlugin } from '../plugins/i18n'
 import { createVuetifyPlugin } from '../plugins/vuetify'
@@ -24,12 +25,14 @@ export async function setupApp(
   }
   const prefs = createDisplayPreferences({ api: displayApi, i18n, theme: vuetify.theme, hostLanguages: [locale] })
   const farms = createFarms(api)
+  const navigation = createNavigation()
   await Promise.all([prefs.load(), farms.load()])
   return {
     farms,
+    navigation,
     global: {
       plugins: [i18n, vuetify],
-      provide: { [displayPreferencesKey]: prefs, [farmsKey]: farms },
+      provide: { [displayPreferencesKey]: prefs, [farmsKey]: farms, [navigationKey]: navigation },
     },
   }
 }

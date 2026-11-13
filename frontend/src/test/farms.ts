@@ -14,7 +14,10 @@ export function memoryFarmsApi(names: string[] = [], activeId = ''): MemoryFarms
     farms: names.map((name, i) => ({ id: `farm-${i + 1}`, name })),
     activeId,
     list: vi.fn(async () => api.farms.map((farm) => ({ ...farm }))),
-    active: vi.fn(async () => api.farms.find((farm) => farm.id === api.activeId) ?? null),
+    active: vi.fn(async () => {
+      const farm = api.farms.find((f) => f.id === api.activeId)
+      return farm ? { ...farm } : null
+    }),
     create: vi.fn(async (name: string) => {
       const farm = { id: `farm-${++next}`, name }
       api.farms.unshift(farm)

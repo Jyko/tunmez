@@ -4,6 +4,7 @@ import { displayPreferencesApi } from './api/displayPreferences'
 import { farmsApi } from './api/farms'
 import { createDisplayPreferences, displayPreferencesKey } from './composables/useDisplayPreferences'
 import { createFarms, farmsKey } from './composables/useFarms'
+import { createNavigation, navigationKey } from './composables/useNavigation'
 import { resolveLocale } from './i18n/locale'
 import { createI18nPlugin } from './plugins/i18n'
 import { createVuetifyPlugin } from './plugins/vuetify'
@@ -33,4 +34,5 @@ createApp(App)
   .use(vuetify)
   .provide(displayPreferencesKey, displayPreferences)
   .provide(farmsKey, farms)
+  .provide(navigationKey, createNavigation())
   .mount('#app')

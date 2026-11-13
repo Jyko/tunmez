@@ -1,31 +1,40 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { mdiAccountCircle } from '@mdi/js'
-import FarmEmptyState from './components/FarmEmptyState.vue'
-import FarmManagement from './components/FarmManagement.vue'
-import FarmMenu from './components/FarmMenu.vue'
+import { mdiAccountCircleOutline, mdiCogOutline } from '@mdi/js'
+import FarmButton from './components/FarmButton.vue'
 import FarmNameDialog from './components/FarmNameDialog.vue'
-import SettingsMenu from './components/SettingsMenu.vue'
+import MainNavigation from './components/MainNavigation.vue'
 import { useDisplayPreferences } from './composables/useDisplayPreferences'
 import { useFarms } from './composables/useFarms'
+import { useNavigation } from './composables/useNavigation'
+import FarmSettingsPage from './pages/FarmSettingsPage.vue'
+import FarmsPage from './pages/FarmsPage.vue'
+import HomePage from './pages/HomePage.vue'
+import ProfilePage from './pages/ProfilePage.vue'
+import SettingsPage from './pages/SettingsPage.vue'
 
 const { t } = useI18n()
 const farms = useFarms()
 const prefs = useDisplayPreferences()
+const navigation = useNavigation()
 
+const navExpanded = ref(false)
+const creating = ref(false)
+const openFailed = ref(false)
 // Shown once at startup; the file is replaced when a setting changes.
 const invalidConfigShown = ref(prefs.invalidConfig.value !== '')
 
-// Screens switch through this state: the application has no router.
-const screen = ref<'home' | 'farms'>('home')
-const creating = ref(false)
-const openFailed = ref(false)
+// Keyboard and screen reader users land on the new page (see guideline).
+watch(navigation.current, async () => {
+  await nextTick()
+  document.querySelector<HTMLElement>('main h1')?.focus()
+})
 
 async function selectFarm(id: string) {
   try {
+    // The user stays on the current page, which shows the newly active farm.
     await farms.select(id)
-    screen.value = 'home'
   } catch (error) {
     console.error('Failed to open farm', error)
     openFailed.value = true
@@ -35,32 +44,47 @@ async function selectFarm(id: string) {
 
 <template>
   <v-app>
-    <v-app-bar :title="t('app.name')">
+    <v-app-bar>
+      <template #prepend>
+        <v-app-bar-nav-icon
+          :aria-label="t('nav.toggle')"
+          :aria-expanded="navExpanded"
+          aria-controls="main-navigation"
+          @click="navExpanded = !navExpanded"
+        />
+      </template>
+      <v-app-bar-title>{{ t('app.name') }}</v-app-bar-title>
       <template #append>
-        <span class="text-medium-emphasis me-2">{{ t('app.tagline') }}</span>
-        <FarmMenu
-          @select="selectFarm"
-          @create="creating = true"
-          @manage="screen = 'farms'"
+        <FarmButton />
+        <v-btn
+          :icon="mdiAccountCircleOutline"
+          :aria-label="t('profile.title')"
+          :aria-current="navigation.current.value === 'profile' ? 'page' : undefined"
+          @click="navigation.navigate('profile')"
         />
-        <!-- Placeholder for the account features to come. -->
-        <v-icon
-          :icon="mdiAccountCircle"
-          size="x-large"
-          color="medium-emphasis"
-          class="mx-2"
+        <v-btn
+          :icon="mdiCogOutline"
+          :aria-label="t('settings.title')"
+          :aria-current="navigation.current.value === 'settings' ? 'page' : undefined"
+          @click="navigation.navigate('settings')"
         />
-        <SettingsMenu />
       </template>
     </v-app-bar>
+    <MainNavigation
+      id="main-navigation"
+      v-model:expanded="navExpanded"
+    />
     <v-main>
-      <FarmManagement
-        v-if="screen === 'farms'"
-        @back="screen = 'home'"
+      <FarmsPage
+        v-if="navigation.current.value === 'farms'"
+        @select="selectFarm"
         @create="creating = true"
       />
-      <FarmEmptyState
-        v-else-if="!farms.active.value"
+      <FarmSettingsPage v-else-if="navigation.current.value === 'farmSettings'" />
+      <SettingsPage v-else-if="navigation.current.value === 'settings'" />
+      <ProfilePage v-else-if="navigation.current.value === 'profile'" />
+      <HomePage
+        v-else
         @select="selectFarm"
         @create="creating = true"
       />

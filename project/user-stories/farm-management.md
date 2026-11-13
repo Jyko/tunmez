@@ -24,7 +24,7 @@ Out of scope:
 ### Empty state
 
 - No farm is ever created automatically.
-- When no farm exists, the main area shows a centred neutral state with a call to action to create a farm, as in most modern management applications.
+- When no farm exists, the home page of the central content shows a centred neutral state with a call to action to create a farm, as in most modern management applications.
 - The call to action is a button with a text label: « Créer une exploitation » / "Create a farm". An icon alone is not enough.
 - When farms exist but none is active, the same empty state also lists the farms so the user can pick one.
 
@@ -36,17 +36,11 @@ Out of scope:
 
 ### Application bar
 
-- Top right, from left to right: active farm name, account icon, settings menu (language and theme).
-- The account icon is an inactive placeholder with no action.
-- The farm name opens the farm menu.
-- The farm menu is reachable with the keyboard: through the usual Tab cycling at least, and through a dedicated keyboard shortcut, documented in `docs/fr/raccourcis.md` and `docs/en/keybinds.md`.
+- The farm button of the application bar (see the layout in `project/guideline.md`) shows the active farm name.
+- When farms exist but none is active, it shows a placeholder text inviting to choose a farm. When no farm exists, it shows a placeholder text saying there is no farm.
+- It opens the farms page in the central content.
+- The farm button is reachable with the keyboard: through the usual Tab cycling at least, and through a dedicated keyboard shortcut, documented in `docs/fr/raccourcis.md` and `docs/en/keybinds.md`.
 - A name too long for its component is truncated cleanly. The full name stays available.
-
-### Farm menu
-
-- Lists the farms, most recently used first. The active farm is marked.
-- "New farm" opens the creation dialog.
-- "Manage farms" opens the farm management screen.
 
 ### Create
 
@@ -58,15 +52,21 @@ Out of scope:
 
 ### Switch
 
-- Selecting a farm in the menu makes it the active farm and updates its last use.
+- Opening a farm from the farms page makes it the active farm and updates its last use. The user stays on the farms page.
 
-### Manage farms screen
+### Farms page
 
-- Lists the farms, each with a rename and a delete action.
-- Rename follows the same name rules as creation.
-- Delete asks for confirmation in a dialog that names the farm and warns that all its data will be lost. This is a deliberate exception to the "undo rather than confirmation" rule, because deletion destroys data.
-- Deleting the active farm leaves no active farm: the empty state is shown.
-- Deleting the last farm is allowed: the empty state is shown.
+- The farm button of the application bar opens the farms page in the central content. The navigation has no farms entry.
+- The page has a "New farm" action, which opens the creation dialog.
+- Lists the farms as cards, most recently used first. The page has an "Active farm" section with the active farm's card, marked, and an "Other farms" section with the other cards; clicking another farm's card opens it. Cards have no other action: rename and delete live in the farm settings page.
+
+### Farm settings page
+
+- The navigation has a "Farm settings" entry while a farm is open. It opens the settings page of the active farm.
+- A "General" section has a "Rename" action, which opens the name dialog. Rename follows the same name rules as creation.
+- A "Danger zone" section, at the bottom of the page, has a "Delete this farm" action. A dialog names the farm, warns that all its data will be lost, and enables the delete button only once the exact farm name is typed. This is a deliberate exception to the "undo rather than confirmation" rule, because deletion destroys data.
+- Deleting the farm leaves no active farm: the home page is shown, with the empty state.
+- Deleting the last farm is allowed.
 
 ### Persistence
 
@@ -85,7 +85,7 @@ Implementation guidance, following `project/guideline.md`.
 - New domain `internal/farm`: `farm.Service` bound to the frontend, `farm.Repository` interface, SQLite implementation `farm.SQLiteRepository` in `sqlite_repository.go`.
 - Migration `internal/database/migrations/00002_farm.sql`: table `farm` with `id` (UUIDv7 as `TEXT`), `name TEXT NOT NULL`, creation and last-use timestamps. Future per-farm tables reference `farm(id)` with `ON DELETE CASCADE`.
 - The active farm is a preference entry declared in `internal/preferences/registry.go`, cleared when that farm is deleted.
-- Frontend: an API client in `src/api/`, a `useFarms` composable, and small components for the farm menu, the name dialog, the empty state and the management screen. Screens switch without a router, since none is approved.
+- Frontend: an API client in `src/api/`, a `useFarms` composable, and small components for the farm menu, the name dialog, the empty state and the farms page.
 - User documentation in French and English is written with the implementation.
 
 ## Choices left to the first implementation

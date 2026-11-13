@@ -46,3 +46,6 @@ build/windows/nsis/*-installer.exe
 frontend/bindings
 frontend/dist
 frontend/node_modules
+
+# Playwright MCP output (screenshots, snapshots)
+.playwright-mcp

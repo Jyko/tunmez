@@ -85,7 +85,7 @@ Approved development tools:
 - TypeScript in strict mode, no `any`.
 - Reusable logic lives in composables (`useXxx`).
 - Props and emits are typed. Components stay small and focused.
-- Screens switch through application state, without a router.
+- Pages of the central content switch through the navigation state (`useNavigation`), without a router.
 - Wails bindings are only called from API client modules in `src/api/`. Components and composables use these clients, never the bindings directly.
 
 ## User interface
@@ -104,7 +104,24 @@ Approved development tools:
 
 ### User preferences
 
-User choices persist from one session to the next: language, theme, size, maximised state and position of the main window, and the active farm. Language and theme are set from the settings menu in the application bar.
+User choices persist from one session to the next: language, theme, size, maximised state and position of the main window, and the active farm. Language and theme are set from the settings page.
+
+### Layout
+
+The application is a single-page Material application:
+
+- Application bar, from left to right: menu button, application name, then at the right end the farm button (active farm name), the profile button and the settings button. No tagline.
+- Main navigation: always visible on the left, listing the main destinations of the application. The current destination is highlighted. The menu button switches it between two presentations:
+  - collapsed: icons only, each with its label as a tooltip and accessible name; in the future it may show a simplified set of entries;
+  - expanded: icon and label; in the future it may show the complete set of entries.
+- Main navigation entries: home, and the farm settings while a farm is open.
+- Central content: shows one page at a time and holds the core of the application.
+  - The farm button opens the farms page, used to switch farm and create one.
+  - The farm settings page holds the settings of the active farm: rename, and deletion in a danger zone at the bottom of the page.
+  - The profile button opens the profile page, empty for now.
+  - The settings button opens the settings page.
+- Navigation history: the central content records the pages visited and can go back to the previous page on command. No button, shortcut or action triggers it yet.
+- When the page changes, focus moves to the page heading, so keyboard and screen reader users land on the new content.
 
 ### Accessibility
 

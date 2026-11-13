@@ -5,6 +5,12 @@
     "pr": "",
     "sessionUrl": false
   },
+  "env": {
+    "PLAYWRIGHT_MCP_BROWSER": "chromium",
+    "PLAYWRIGHT_MCP_HEADLESS": "true",
+    "PLAYWRIGHT_MCP_ISOLATED": "true",
+    "PLAYWRIGHT_MCP_VIEWPORT_SIZE": "1280x800"
+  },
   "enabledPlugins": {
     "gopls-lsp@anthropic-plugin-directory": true
   },
@@ -27,7 +33,9 @@
       "Bash(git status *)",
       "Bash(git diff *)",
       "Bash(git log *)",
-      "Bash(git show *)"
+      "Bash(git show *)",
+      "Bash(.claude/skills/browser-preview/scripts/start.sh *)",
+      "Bash(.claude/skills/browser-preview/scripts/stop.sh)"
     ],
     "deny": [
       "Read(./.env)",
